@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="module" src="scripts/js/main.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" id="group-buttons">
+        <div class="item">
+            <button type="submit" id="display_hooks" style="display: block;">Hooks</button>
+        </div>
+        <div class="item">
+            <button type="submit" id="display_settings" style="display: none;">Settings</button>
+        </div>
+        <div class="item">
+            <button type="submit" id="enum">Live Enumeration</button>
+        </div>
+    </div>
+    <div class="container" id="group-inputs" style="display: flex">
+        <div class="item" id="recon_choices">
+            <input type="checkbox" id="c99" value="c99">
+            <label for="c99">c99</label>
+            <input type="checkbox" id="subfinder" value="subfinder">
+            <label for="subfinder">Subfinder</label>
+        </div>
+        <div class="item" id="inputs">
+            <input type="text" id="program" placeholder="Program Name" oninput="">
+            <input type="text" id="dischook" placeholder="Discord Webhook URL">
+            <select id="cron">
+                <option>Cronjob</option>
+                <option>1M</option>
+                <option>1H</option>
+                <option>2H</option>
+                <option>3H</option>
+                <option>4H</option>
+                <option>5H</option>
+                <option>6H</option>
+                <option>7H</option>
+                <option>8H</option>
+                <option>9H</option>
+                <option>10H</option>
+                <option>11H</option>
+                <option>12H</option>
+            </select>
+            <input id="input-target" type="text" placeholder="domain.io">
+        </div>
+        <div class="item" id="save-add">
+            <button value="submit" id="recon">Add Target(s)</button>
+            <button value="submit" id="add">+</button>
+        </div>
+
+    </div>
+    <div class="container" id="hooks-view" style="display: none;"></div>
+</body>
+</html>
