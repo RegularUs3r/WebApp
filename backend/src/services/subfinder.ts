@@ -2,6 +2,7 @@ import { spawn } from 'child_process';
 
 
 export const subfinderModule = (domain: string): Promise<string[]> => {
+    console.log("Subfinder here!")
     return new Promise((resolve, reject) => {
         let raw = '';
         const command = spawn('subfinder', ['-d', domain])

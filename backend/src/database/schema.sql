@@ -46,4 +46,4 @@ CREATE TABLE IF NOT EXISTS maps (
     maplink VARCHAR(255) UNIQUE NOT NULL,
     p_name UUID REFERENCES programName(id) NOT NULL
 
-);
+)

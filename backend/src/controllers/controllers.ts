@@ -30,13 +30,9 @@ export const addProgram = async(req: Request, res: Response): Promise<void> => {
         if(target.includes(",")){
             await Promise.all(target.split(",").map(async (value: string) => {
                 await Promise.all([brancher(program_name, discord_hook, cronOptions[setcron] ?? "", choice, value, false)])
-                try{
-                    res.json({"message": "OK!"})
-                }catch(error){
-                    console.error(error)
-                }
+                try{res.json({"message": "OK!"})}catch(error){}
             }))
-            res.json({"message": "OK!"})
+            try{res.json({"message": "OK!"})}catch(error){}
         }else{
             await Promise.all([brancher(program_name, discord_hook, cronOptions[setcron], choice, target, false)])
             res.json({"message": "OK!"})
