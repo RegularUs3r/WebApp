@@ -67,3 +67,17 @@ const letterValidator = async(program_name: string, discord_hook: string, setcro
 function defaultResponse(res: Response){
     return res.status(400).json({"reason": `Invalid input`})
 }
+
+export function requireAuth(req: Request, res: Response, next: NextFunction): void {
+    if (req.session.authenticated === true) {
+        next();
+        return;
+    }
+    if (req.method !== 'GET' || req.path.startsWith('/api/')) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+    res.redirect('/mfa');
+    console.log("/mfa")
+    
+}

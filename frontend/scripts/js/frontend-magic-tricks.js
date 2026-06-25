@@ -188,7 +188,7 @@ export function showContent(){
     Object.values(document.getElementsByTagName("button")).forEach(button => {
         button.addEventListener('click', () => {
             const displayed_div = document.querySelectorAll('div[style*="display: flex"]')
-            if(button.id === "add" || button.id === "recon"){
+            if(button.id === "add" || button.id === "recon" || button.id === "enum"){
             }else{
                 for(const shownDiv  of Object.values(displayed_div)){
                     if(button.id === "display_settings"){

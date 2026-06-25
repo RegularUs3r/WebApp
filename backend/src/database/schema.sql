@@ -19,15 +19,6 @@ CREATE TABLE IF NOT EXISTS subdomains (
     p_name UUID REFERENCES programName(id) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tmp_new_subdomains (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    subdomain VARCHAR(255) NOT NULL,
-    status INTEGER NOT NULL,
-    host_id UUID REFERENCES hosts(id),
-    p_name UUID REFERENCES programName(id)
-
-);
-
 CREATE TABLE IF NOT EXISTS links (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     link VARCHAR(255) UNIQUE NOT NULL,
@@ -50,8 +41,9 @@ CREATE TABLE IF NOT EXISTS notify (
 
 );
 
-CREATE TABLE IF NOT EXISTS filecount (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    extension VARCHAR(255) NOT NULL,
-    subdomain_id UUID REFERENCES subdomains(id)
-)
+CREATE TABLE IF NOT EXISTS maps (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY UNIQUE NOT NULL,
+    maplink VARCHAR(255) UNIQUE NOT NULL,
+    p_name UUID REFERENCES programName(id) NOT NULL
+
+);

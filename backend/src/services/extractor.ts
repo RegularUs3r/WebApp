@@ -1,6 +1,6 @@
 import { responseParser } from './responseReader';
 import { tryFetch } from './fetch';
-import { addLinks, addResponse } from '../models/addStuffDB';
+import { addLinks, addMapLinks, addResponse } from '../models/addStuffDB';
 import { checkLinksAgainstSubdomains, getResponse } from '../models/getStuffDB';
 import { checkFile } from './fileDiffer';
 import { notify } from './notifier';
@@ -48,7 +48,6 @@ export const linkExtractor = async(subdomain: string, live: boolean, program_nam
 
 
 const linkParser = async(links: string[], subdomain: string, live: boolean, program_name: string): Promise<void> => {
-    const maps = []
     for(var link of links){
         const processedLink = String(link.split("?")[0])
         const check = await checkLinksAgainstSubdomains(processedLink.replace("https://", "").replace("/", ""))
@@ -57,25 +56,37 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
             }else{
                 await addLinks(processedLink, subdomain)
                 const r = await tryFetch(`${processedLink}.map`) ?? await tryFetch(processedLink)
+                const txt_response = r?.clone()
                 if(!r) continue
+                if(!txt_response) continue
                 if(r.url.endsWith(".map")){
-                    console.log(r.url)
-                    maps.push(r.url)
+                    try{
+                        const response = await r.json()
+                        const sources = response["sources"]
+                        if(sources){
+                            const data = await addMapLinks(r.url, program_name) ?? ""
+                            await notify("Map Finder", [data], program_name)
+                        }
+                    }catch(error){
+                        console.error("Not a .map file")
+                    }
                 }
-                const data = await r.text()
-                if(live === true){
-                    const old_response_body = await getResponse(processedLink)
-                    await checkFile(old_response_body, data, processedLink, program_name)
-                }else{
-                    const encodedData = Buffer.from(data, 'utf8').toString('base64')
-                    await addResponse(encodedData, subdomain, processedLink)
+                try{
+                    const data = await txt_response.text()
+                    if(live === true){
+                        const old_response_body = await getResponse(processedLink)
+                        await checkFile(old_response_body, data, processedLink, program_name)
+                    }else{
+                        const encodedData = Buffer.from(data, 'utf8').toString('base64')
+                        await addResponse(encodedData, subdomain, processedLink)
+                    }
+                }catch(error){
+                    console.error("Something went wrong", error)
                 }
+                
             }
             
         }
-    }
-    if(maps.length > 0){
-        await notify("Map Finder", maps, program_name)
     }
     
 }

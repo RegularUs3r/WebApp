@@ -17,3 +17,7 @@ export interface responseBodyBluePrint {
     "subdomain_id": string,
     "subdomain": string
 }
+
+export interface mapLinkBluePrint { 
+    "maplink": string
+}

@@ -1,5 +1,5 @@
 import pool from "../database/database"
-import { addSubdomainsWithCodeBluePrint } from "../types/interfaces"
+import { addSubdomainsWithCodeBluePrint, mapLinkBluePrint } from "../types/interfaces"
 
 export const addProgramName = async(programName: string): Promise<void> => {
     console.log(programName)
@@ -51,4 +51,13 @@ export const updateResponse = async(newResponseBody: string, oldResponseBody: st
         `UPDATE response set response_body = $1 where response_body = $2`,
         [newResponseBody, oldResponseBody]
     )
+}
+
+export const addMapLinks = async(maplink: string, programName: string): Promise<string | undefined> => {
+    const result = await pool.query<mapLinkBluePrint>(
+        `INSERT INTO maps (maplink, p_name) VALUES ($1, (select id from programname where name = $2)) ON CONFLICT (maplink) DO NOTHING RETURNING maplink`,
+        [maplink, programName]
+    )
+    const data = result.rows.map(item => item.maplink)
+    return data[0]
 }

@@ -102,7 +102,7 @@ export async function fetchData(){
                 const {subdomain, status} = content
                 const info = subdomain + " - " + status
                 td.textContent = info
-                td.id = "data-row"
+                tr.id = "data-row"
                 tr.appendChild(td)
                 tbody.appendChild(tr)
             }

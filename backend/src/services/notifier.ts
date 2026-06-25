@@ -23,10 +23,12 @@ export const notify = async(botname: string, info: string[], program_name: strin
 
         }
     }else if(botname === "Map Finder"){
-        console.log("Here - Map finder")
         const data = {username: botname, content: `${info.join(",").replace(/,/g, "\n")}`}
         await doRequest(data)
 
+    }else if(botname === "Process Runner"){
+        const data = {username: botname, content: `${info.join(",").replace(/,/g, "\n")}`}
+        await doRequest(data)
     }
     async function doRequest(data: object){
         const response = await fetch(hook, {

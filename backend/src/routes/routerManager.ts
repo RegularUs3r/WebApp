@@ -5,10 +5,10 @@ import { validator } from "../middleware/middle";
 
 const router = Router()
 
-router.post('/add-program', validator, addProgram)
-router.get('/live', goLive)
-router.get('/getdata', getData)
-router.get('/gethooks', getHooks)
+router.post('/api/add-program', validator, addProgram)
+router.get('/api/live', goLive)
+router.get('/api/getdata', getData)
+router.get('/api/gethooks', getHooks)
 
 
 export default router;
