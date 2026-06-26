@@ -13,14 +13,16 @@ export const continuous = async(): Promise<void> => {
         //Aprendi destructing com a I.A :)
         const { id, period, hook, options, p_name } = configdata
         const baseTargets = await getBaseTargets(programname)
-        cron.schedule(period, async() => {
-            try {
-                await notify("Process Runner", [`Running continuous enumeration for ${baseTargets}`], programname)
-                await brancher(programname, hook, period, [options], baseTargets, true)
-            } catch(error) {
-                console.error(`Cron job failed for ${programname}:`, error)
-            }
-        })
+        for(const target of baseTargets){
+            cron.schedule(period, async() => {
+                try {
+                    await notify("Process Runner", [`Running continuous enumeration for ${target}`], programname)
+                    await brancher(programname, hook, period, [options], target, true)
+                } catch(error) {
+                    console.error(`Cron job failed for ${target}:`, error)
+                }
+            })
+        }
         
     }
 }

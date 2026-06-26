@@ -21,14 +21,14 @@ export const getNotifyConfig = async(program_name: string): Promise<CronDataBlue
     return data[0]
 }
 
-export const getBaseTargets = async(program_name: string): Promise<string> => {
+export const getBaseTargets = async(program_name: string): Promise<string | any> => {
     const results = await pool.query(
         `SELECT domain FROM hosts where p_name = (select id from programname where name = $1)`,
         [program_name]
     )
 
     const data = results.rows.map(item => item.domain)
-    return data[0]
+    return data
 }
 
 export const getResponse = async(link: string): Promise<string> => {
