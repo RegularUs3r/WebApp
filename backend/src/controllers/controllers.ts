@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { brancher } from "../services/distributor";
-import { continuous } from "../services/cronService";
-import { getNotifyConfig, getProgramName, getSubdomains } from "../models/getStuffDB";
-import { stripTypeScriptTypes } from "module";
+import { continuous, stopCron } from "../services/cronService";
+import { checkLinksAgainstSubdomains, getCronState, getNotifyConfig, getProgramName, getSubdomains } from "../models/getStuffDB";
+import { updateSetts } from "../models/updateSuffDB";
+import { update } from "../services/updateSettings";
 
 const cronOptions: { [key: string]: string } = {
         '1M':  '* * * * *',
@@ -42,11 +43,6 @@ export const addProgram = async(req: Request, res: Response): Promise<void> => {
     }
 }
 
-export const goLive = async(req: Request, res: Response): Promise<void> => {
-    await continuous()
-    res.json({"message": "Activated"})
-}
-
 export const getData = async(req: Request, res: Response): Promise<void> => {
     var data: object = {}
     const names = await getProgramName()
@@ -54,7 +50,6 @@ export const getData = async(req: Request, res: Response): Promise<void> => {
         const subs = await getSubdomains(name)
         // I.A ajudou com o spread
         data = { ...data, [name]: subs }
-        console.log(data)
     }
     res.json({data})
 }
@@ -65,9 +60,31 @@ export const getHooks = async(req: Request, res: Response): Promise<void> => {
     for(const name of names){
         const config = await getNotifyConfig(name)
         data = { ...data, [name]: config }
-        console.log(data)
 
     }
     res.json({data})
     
+}
+
+export const cronState = async(req: Request, res: Response): Promise<void> => {
+    console.log(req.body)
+    const result = await getCronState(req.body.programName)
+}
+
+export const killJob = async(req: Request, res: Response): Promise<void> => {
+    const programName = req.params.program
+    await stopCron(String(programName))
+    res.json({"message": "Ok!"})
+}
+
+export const fireJob = async(req: Request, res: Response): Promise<void> => {
+    const programName = req.body.programName
+    await continuous(programName)
+    res.json({"message": "OK!"})
+}
+
+export const updateSets = async(req: Request, res: Response): Promise<void> => {
+    const {program_name, discord_hook, choice, setcron} = req.body
+    await update(program_name, discord_hook, choice, setcron)
+    res.json({"message": "OK!"})
 }

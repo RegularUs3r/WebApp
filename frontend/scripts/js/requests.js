@@ -59,14 +59,6 @@ export async function addTarget(){
                 
 }
 
-
-export async function liveEnumeration(){
-    fetch('/api/live', {
-        method: 'GET'
-    })
-
-}
-
 export async function fetchData(){
     const mainDiv = document.getElementById("group-buttons")
     const response = await fetch('/api/getdata')
@@ -74,6 +66,8 @@ export async function fetchData(){
     for(const value of Object.values(data)){
         for(const [buttonName, items] of Object.entries(value)){
             const dinamycButton = document.createElement("button")
+            
+
             const divContent = document.createElement("div")
             const childDiv = document.createElement("div")
             const table = document.createElement("table")
@@ -81,6 +75,7 @@ export async function fetchData(){
             const theadrow = document.createElement("tr")
             const tbody = document.createElement("tbody")
             const th = document.createElement("th")
+            const th2 = document.createElement("th")
             
             dinamycButton.textContent = buttonName
             divContent.classList = "container"
@@ -95,6 +90,7 @@ export async function fetchData(){
 
             th.textContent = buttonName
             divContent.id = buttonName
+
             const tdata = document.createElement("td")
             for(const content of items){
                 const tr = document.createElement("tr")
@@ -106,21 +102,27 @@ export async function fetchData(){
                 tr.appendChild(td)
                 tbody.appendChild(tr)
             }
+            
+            const buttonDiv = document.createElement("div")
+            buttonDiv.classList = "container"
+            buttonDiv.style.display = "none"
+            buttonDiv.style.justifyContent = "center"
+            buttonDiv.id = buttonName
+
             tdata.appendChild(search)
             theadrow.appendChild(th)
+            theadrow.appendChild(th2)
             thead.appendChild(theadrow)
             table.appendChild(tdata)
             table.appendChild(tbody)
             table.appendChild(thead)
             divContent.appendChild(table)
-
             childDiv.appendChild(dinamycButton)
-            
             mainDiv.appendChild(childDiv)
+            document.body.appendChild(buttonDiv)
             document.body.appendChild(divContent)
 
         }
     }
     showContent()
 }
-

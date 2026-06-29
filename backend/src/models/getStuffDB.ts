@@ -1,6 +1,7 @@
 import pool from "../database/database"
 
 import { CronDataBluePrint, responseBodyBluePrint } from "../types/interfaces"
+import { addCronState } from "./addStuffDB"
 
 export const getProgramName = async(): Promise<string[]> => {
     const results = await pool.query(
@@ -21,7 +22,7 @@ export const getNotifyConfig = async(program_name: string): Promise<CronDataBlue
     return data[0]
 }
 
-export const getBaseTargets = async(program_name: string): Promise<string | any> => {
+export const getBaseTargets = async(program_name: string): Promise<string[] | any> => {
     const results = await pool.query(
         `SELECT domain FROM hosts where p_name = (select id from programname where name = $1)`,
         [program_name]
@@ -56,4 +57,15 @@ export const checkLinksAgainstSubdomains = async(link: string): Promise<boolean>
     )
     const data = result.rows.map(item => item.exists)
     return data[0]
+}
+
+export const getCronState = async(programName: string): Promise<any> => {
+    console.log(programName)
+    const results = await pool.query(
+        'SELECT status FROM jobs WHERE p_name = (select id from programname where name = $1)',
+        [programName]
+    )
+    const data = results.rows.map(item => item)
+    console.log(data)
+    return data
 }

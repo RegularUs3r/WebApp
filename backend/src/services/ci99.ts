@@ -1,5 +1,4 @@
 export const c99 = async(domain: string): Promise<string[]> => {
-    console.log("c99 here!")
     const subdomains: string[] = []
     try{
         const response = await fetch(`https://api.c99.nl/subdomainfinder?key=${process.env.KEY}&domain=${domain}`);

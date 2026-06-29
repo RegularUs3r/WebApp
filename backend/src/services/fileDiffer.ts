@@ -8,10 +8,7 @@ export const checkFile = async(old_response_body: string, response_body: string,
     Object.entries(differences).forEach(([key, value]) => {
         if(value["added"] === true){
             // console.log(`Linhas adicionada ${value["value"]} - ${link}`)
-            changes.push(`LINHAS ADICIONADAS SICK ${value["value"]}`)
-        }else if(value["removed"] === true){
-            // console.log(`Linhas removidas ${value["value"]} - ${link}`)
-            changes.push(`LINHAS REMOVIDAS SICK ${value["value"]}`)
+            changes.push(`LINHAS ADICIONADAS-${link} SICK ${value["value"]}`)
         }
     })
     if(changes.length > 0){
@@ -19,10 +16,6 @@ export const checkFile = async(old_response_body: string, response_body: string,
         console.log(changes)
         const newResponseBody = Buffer.from(response_body, 'utf8').toString('base64')
         await updateResponse(newResponseBody, old_response_body, link)
-
         await notify("File Differ", changes, program_name)
-        // changes.map(async message => {
-        //     await notify("File Differ", [message], program_name)
-        // })
     }
 }

@@ -204,8 +204,10 @@ export function showContent(){
                         document.getElementById("display_settings").style.display = "block"
                     }else{
                         shownDiv.style.display = "none"
-                        const hiddenDiv = document.querySelector(`div[id*="${button.id}"]`)
-                        hiddenDiv.style.display = "flex"
+                        const hiddenDivs = document.querySelectorAll(`div[id*="${button.id}"]`)
+                        for(const hiddenDiv of hiddenDivs){
+                            console.log(hiddenDiv.style.display = "flex")
+                        }
                         document.getElementById("display_hooks").style.display = "none"
                         document.getElementById("display_settings").style.display = "block"
 
@@ -227,35 +229,119 @@ async function fetchHooks(){
     divConfig.style.justifyContent = "center"
     for(const content of Object.values(data)){
         for(const [program, data] of Object.entries(content)){
+            const foobar = program
             const tablerow = document.createElement("thead")
+            const tablerow2 = document.createElement("thead")
 
             const td_programname = document.createElement("td")
-            const td_options = document.createElement("td")
-            const td_period = document.createElement("td")
-            const td_button = document.createElement("td")
-            const td_hook = document.createElement("td")
 
-            const update = document.createElement("button")
+            const td_options = document.createElement("td")
+            const input2 = document.createElement("input")
+
+            const td_period = document.createElement("td")
+            const input3 = document.createElement("input")
+
+            const td_buttonUpdate = document.createElement("td")
+            const td_buttonStopCron = document.createElement("td")
+            const td_buttonFireJob = document.createElement("td")
+
+            const td_hook = document.createElement("td")
+            const input4 = document.createElement("input")
+
+            const stopCron = document.createElement("button")
+            stopCron.textContent = `Stop - ${program}`
+            stopCron.id = "stopCron"
+            stopCron.setAttribute("onclick", "killCron(stopCron)")
+
+            const firejob = document.createElement("button")
+            firejob.textContent = `Fire - ${program}`
+            firejob.id = "firejob"
+            firejob.setAttribute("onclick", "fireCron(firejob)")           
 
             const {id, period, hook, options, p_name} = data
 
-            update.textContent = "Update"
+            
             td_programname.textContent = program
-            td_period.textContent = period
-            td_hook.textContent = hook
-            td_options.textContent = options
-            td_button.appendChild(update)
+            
+            input2.value = options
+            input2.style.fieldSizing = "content"
+            input2.id = `${program}-sets-options`
+            td_period.appendChild(input2)
+
+            input3.value = period
+            input3.style.fieldSizing = "content"
+            input3.id = `${program}-sets-period`
+            td_hook.appendChild(input3)
+            
+            input4.value = hook
+            input4.style.boxSizing = "border-box"
+            input4.id = `${program}-sets-hook`
+            td_options.appendChild(input4)
+
+            const update = document.createElement("button")
+            update.textContent = `Update - ${program}`
+            update.id = "update"
+            update.setAttribute("onclick", "updateSetts(update)")
+
+            td_buttonUpdate.appendChild(update)
+            td_buttonFireJob.appendChild(firejob)
+            td_buttonStopCron.appendChild(stopCron)
 
             tablerow.appendChild(td_programname)
             tablerow.appendChild(td_hook)
             tablerow.appendChild(td_options)
             tablerow.appendChild(td_period)
-            tablerow.appendChild(td_button)
+            tablerow2.appendChild(td_buttonUpdate)
+            tablerow2.appendChild(td_buttonFireJob)
+            tablerow2.appendChild(td_buttonStopCron)
 
             table.appendChild(tablerow)
+            table.appendChild(tablerow2)
             divConfig.appendChild(table)
         }
     }
     document.body.appendChild(divConfig)
     document.getElementById("display_config").style.display = "flex"
+}
+
+
+export async function fireCron(intel){
+    const program = intel.textContent.split(" - ")[1]
+    const response = await fetch('/api/firejob', {
+        method: 'POST',
+        headers: {"Content-Type": "Application/json"},
+        body: JSON.stringify({"programName": program})
+    })
+    const data = await response.json()
+}
+
+export async function killCron(intel){
+    const program = intel.textContent.split(" - ")[1]
+    const response = await fetch(`/api/killjob/${program}`)
+    const data = await response.json()
+}
+
+export async function updateSetts(intel){
+    const map = new Map()
+    const program = intel.textContent.split(" - ")[1]
+    const all = document.querySelectorAll(`input[id*=${program}]`)
+    let options = ""
+    let period = ""
+    let hook = ""
+    for(const [key, value] of Object.entries(all)){
+        if(value.id.includes("options")){
+            options = value.value
+        }else if(value.id.includes("period")){
+            period = value.value
+        }else if(value.id.includes("hook")){
+            hook = value.value
+        }
+    }
+    //const content = {program_name: ProgramName[data], target: Targets[data], discord_hook: DiscrodBot[data], setcron: Sched[data], choice: [choice]}
+    const data = {program_name: program, discord_hook: hook, choice: options, setcron: period}
+    const response = await fetch('/api/updatesetts', {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    })
 }

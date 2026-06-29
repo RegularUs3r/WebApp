@@ -46,4 +46,11 @@ CREATE TABLE IF NOT EXISTS maps (
     maplink VARCHAR(255) UNIQUE NOT NULL,
     p_name UUID REFERENCES programName(id) NOT NULL
 
+);
+
+CREATE TABLE IF NOT EXISTS jobs (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY UNIQUE NOT NULL,
+    status VARCHAR(255) UNIQUE NOT NULL,
+    p_name UUID REFERENCES programName(id) UNIQUE NOT NULL
+
 )

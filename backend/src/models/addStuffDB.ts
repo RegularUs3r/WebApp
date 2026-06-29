@@ -61,3 +61,10 @@ export const addMapLinks = async(maplink: string, programName: string): Promise<
     const data = result.rows.map(item => item.maplink)
     return data[0]
 }
+
+export const addCronState = async(status: string, programName: string): Promise<void> => {
+    await pool.query(
+        'INSERT INTO jobs (status, p_name) VALUES ($1, (select id from programname where name = $2)) ON CONFLICT (status) DO NOTHING',
+        [status, programName]
+    )
+}
