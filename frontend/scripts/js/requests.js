@@ -98,11 +98,13 @@ export async function fetchData(){
                 const {subdomain, status} = content
                 const info = subdomain + " - " + status
                 td.textContent = info
+                td.id = subdomain
+                td.setAttribute("onclick", `navigator.clipboard.writeText('${subdomain}')`)
                 tr.id = "data-row"
                 tr.appendChild(td)
                 tbody.appendChild(tr)
             }
-            
+
             const buttonDiv = document.createElement("div")
             buttonDiv.classList = "container"
             buttonDiv.style.display = "none"
