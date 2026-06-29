@@ -251,12 +251,12 @@ async function fetchHooks(){
             const stopCron = document.createElement("button")
             stopCron.textContent = `Stop - ${program}`
             stopCron.id = "stopCron"
-            stopCron.setAttribute("onclick", "killCron(stopCron)")
+            stopCron.setAttribute("onclick", `killCron('${stopCron.textContent}')`)
 
             const firejob = document.createElement("button")
             firejob.textContent = `Fire - ${program}`
             firejob.id = "firejob"
-            firejob.setAttribute("onclick", "fireCron(firejob)")           
+            firejob.setAttribute("onclick", `fireCron('${firejob.textContent}')`)           
 
             const {id, period, hook, options, p_name} = data
 
@@ -281,7 +281,7 @@ async function fetchHooks(){
             const update = document.createElement("button")
             update.textContent = `Update - ${program}`
             update.id = "update"
-            update.setAttribute("onclick", "updateSetts(update)")
+            update.setAttribute("onclick", `updateSetts('${update.textContent}')`)
 
             td_buttonUpdate.appendChild(update)
             td_buttonFireJob.appendChild(firejob)
@@ -306,7 +306,7 @@ async function fetchHooks(){
 
 
 export async function fireCron(intel){
-    const program = intel.textContent.split(" - ")[1]
+    const program = intel.split(" - ")[1]
     const response = await fetch('/api/firejob', {
         method: 'POST',
         headers: {"Content-Type": "Application/json"},
@@ -316,14 +316,14 @@ export async function fireCron(intel){
 }
 
 export async function killCron(intel){
-    const program = intel.textContent.split(" - ")[1]
+    const program = intel.split(" - ")[1]
     const response = await fetch(`/api/killjob/${program}`)
     const data = await response.json()
 }
 
 export async function updateSetts(intel){
     const map = new Map()
-    const program = intel.textContent.split(" - ")[1]
+    const program = intel.split(" - ")[1]
     const all = document.querySelectorAll(`input[id*=${program}]`)
     let options = ""
     let period = ""
@@ -337,7 +337,6 @@ export async function updateSetts(intel){
             hook = value.value
         }
     }
-    //const content = {program_name: ProgramName[data], target: Targets[data], discord_hook: DiscrodBot[data], setcron: Sched[data], choice: [choice]}
     const data = {program_name: program, discord_hook: hook, choice: options, setcron: period}
     const response = await fetch('/api/updatesetts', {
         method: "PATCH",
