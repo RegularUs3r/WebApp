@@ -1,7 +1,5 @@
 import pool from "../database/database"
-
 import { CronDataBluePrint, responseBodyBluePrint } from "../types/interfaces"
-import { addCronState } from "./addStuffDB"
 
 export const getProgramName = async(): Promise<string[]> => {
     const results = await pool.query(

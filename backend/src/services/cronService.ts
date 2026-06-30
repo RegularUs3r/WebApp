@@ -2,7 +2,6 @@ import { getBaseTargets, getNotifyConfig, getProgramName } from "../models/getSt
 import { brancher } from "./distributor";
 import cron from "node-cron";
 import { notify } from "./notifier";
-import { addCronState } from "../models/addStuffDB";
 
 const activeCrons = new Map<string, ReturnType<typeof cron.schedule>>()
 
@@ -17,11 +16,9 @@ export const continuous = async(programName: string): Promise<void> => {
     for(const target of baseTargets){
         console.log(target)
         const job = cron.schedule(period, async() => {
-            console.log("Cron running!")
-            console.log(`Current period ${period}`)
-            await addCronState(job.getStatus(), programName)
+            console.log(`Current running ${period} ${target}`)
             try {
-                // await notify("Process Runner", [`Running continuous enumeration for ${target}`], programName)
+                await notify("Process Runner", [`Running continuous enumeration for ${target}`], programName)
                 await brancher(programName, hook, period, [options], target, true)
             } catch(error) {
                 console.error(`Cron job failed for ${target}:`, error)
