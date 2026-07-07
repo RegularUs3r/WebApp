@@ -13,12 +13,11 @@ export const c99 = async(domain: string): Promise<string[]> => {
                 subdomains.push(i.subdomain)
             }
         }catch(error){
-            console.error("c99: unexpected response shape", error)
+            console.error("c99: unexpected response shape")
         }
 
     }catch(error){
-        console.error('Failed to fetch user details:', error)
-        throw error;
+        console.error('Failed to fetch user details:')
     }
     return subdomains
 

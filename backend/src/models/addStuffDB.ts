@@ -61,3 +61,10 @@ export const addMapLinks = async(maplink: string, programName: string): Promise<
     const data = result.rows.map(item => item.maplink)
     return data[0]
 }
+
+export const addSecret = async(secret: string): Promise<void> => {
+    await pool.query(
+        'INSERT INTO mfa (secret) VALUES ($1)',
+        [secret]
+    )
+}

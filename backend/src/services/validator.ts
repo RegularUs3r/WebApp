@@ -10,6 +10,7 @@ export const prober = async(subs: string[], program_name: string, live: boolean)
         const response = await tryFetch(`http://${sub}`) ?? await tryFetch(`https://${sub}`)
         if(response === undefined || response === null) return
         if(live === false){
+            console.log(`To add ${sub}`)
             await addSubdomainsWithCode(sub,  response.status, program_name, live)
             await linkExtractor(sub, live, program_name)
         }else{

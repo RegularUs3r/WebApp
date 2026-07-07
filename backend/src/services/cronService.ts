@@ -18,7 +18,7 @@ export const continuous = async(programName: string): Promise<void> => {
         const job = cron.schedule(period, async() => {
             console.log(`Current running ${period} ${target}`)
             try {
-                await notify("Process Runner", [`Running continuous enumeration for ${target}`], programName)
+                // await notify("Process Runner", [`Running continuous enumeration for ${target}`], programName)
                 await brancher(programName, hook, period, [options], target, true)
             } catch(error) {
                 console.error(`Cron job failed for ${target}:`, error)

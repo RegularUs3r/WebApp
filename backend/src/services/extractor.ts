@@ -6,7 +6,7 @@ import { checkFile } from './fileDiffer';
 import { notify } from './notifier';
 
 export const linkExtractor = async(subdomain: string, live: boolean, program_name: string): Promise<void> => {
-    const excludedFiles = [".png", ".jpg", ".gif", ".webp", ".jpeg"]
+    const excludedFiles = [".png", ".jpg", ".gif", ".webp", ".jpeg", ".svg", ".ttf", ".woff", ".woff2", ".ico", ".eot", ".webp", ".css"]
     const links: string[] = []
     const response = await tryFetch(`http://${subdomain}`) ?? await tryFetch(`https://${subdomain}`)
     
@@ -86,7 +86,7 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                         await addResponse(encodedData, subdomain, processedLink)
                     }
                 }catch(error){
-                    console.error("Something went wrong", error)
+                    console.error("Something went wrong")
                 }
                 
             }

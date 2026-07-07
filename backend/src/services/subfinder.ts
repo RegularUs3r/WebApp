@@ -12,7 +12,6 @@ export const subfinderModule = (domain: string): Promise<string[]> => {
 
         command.on('close', () => {
             const results = raw.split('\n').filter(line => line.trim() !== '');
-            console.log(`subfinder - ${results}`)
             resolve(results);
         });
     })

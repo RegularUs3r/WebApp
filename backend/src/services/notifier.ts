@@ -6,7 +6,7 @@ export const notify = async(botname: string, info: string[], program_name: strin
     if(configdata === undefined) return
     const { id, period, hook, options, p_name } = configdata
     if(botname === "Subdomain Enumerator"){
-        const data = {username: botname, content: `${info.join(",").replace(/,/g, "\n")}`}
+        const data = {username: botname, content: `https://${info.join(",").replace(/,/g, "\n")}`}
         await doRequest(data)
     }else if(botname === "File Differ"){
         for(const messages of info){
