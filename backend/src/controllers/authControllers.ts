@@ -15,7 +15,6 @@ export const getMfa = async(req: Request, res: Response): Promise<void> => {
 
 export const validateMfa = async(req: Request, res: Response): Promise<void> => {
     const { code } = req.body
-    console.log(code)
     const realOne = process.env.SECRET_PASS
     if(code === realOne){
         req.session.authenticated = true;

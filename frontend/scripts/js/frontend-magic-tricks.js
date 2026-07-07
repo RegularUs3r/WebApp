@@ -244,6 +244,7 @@ async function fetchHooks(){
             const td_buttonUpdate = document.createElement("td")
             const td_buttonStopCron = document.createElement("td")
             const td_buttonFireJob = document.createElement("td")
+            const td_buttonDeleteProgram = document.createElement("td")
 
             const td_hook = document.createElement("td")
             const input4 = document.createElement("input")
@@ -256,7 +257,13 @@ async function fetchHooks(){
             const firejob = document.createElement("button")
             firejob.textContent = `Fire - ${program}`
             firejob.id = "firejob"
-            firejob.setAttribute("onclick", `fireCron('${firejob.textContent}')`)           
+            firejob.setAttribute("onclick", `fireCron('${firejob.textContent}')`)   
+            
+            
+            const deleteProgram = document.createElement("button")
+            deleteProgram.textContent = `Delete - ${program}`
+            deleteProgram.id = "deleteProgram"
+            deleteProgram.setAttribute("onclick", `delProgram('${deleteProgram.textContent}')`)
 
             const {id, period, hook, options, p_name} = data
 
@@ -286,6 +293,7 @@ async function fetchHooks(){
             td_buttonUpdate.appendChild(update)
             td_buttonFireJob.appendChild(firejob)
             td_buttonStopCron.appendChild(stopCron)
+            td_buttonDeleteProgram.appendChild(deleteProgram)
 
             tablerow.appendChild(td_programname)
             tablerow.appendChild(td_hook)
@@ -294,6 +302,7 @@ async function fetchHooks(){
             tablerow2.appendChild(td_buttonUpdate)
             tablerow2.appendChild(td_buttonFireJob)
             tablerow2.appendChild(td_buttonStopCron)
+            tablerow2.appendChild(td_buttonDeleteProgram)
 
             table.appendChild(tablerow)
             table.appendChild(tablerow2)
@@ -319,6 +328,13 @@ export async function killCron(intel){
     const program = intel.split(" - ")[1]
     const response = await fetch(`/api/killjob/${program}`)
     const data = await response.json()
+}
+
+export async function delProgram(intel){
+    const program = intel.split(" - ")[1]
+    const response = await fetch(`/api/program/${program}`, {method: 'DELETE'})
+    const data = await response.json()
+    window.location.reload()
 }
 
 export async function updateSetts(intel){

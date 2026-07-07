@@ -78,6 +78,5 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
         return;
     }
     res.redirect('/mfa');
-    console.log("/mfa")
     
 }

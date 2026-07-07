@@ -1,8 +1,8 @@
 import { filterData } from './filter.js';
 import { choices } from './choice.js';
 import { saveSettings } from './setts.js';
-import { addTarget, fetchData, copyOnTap} from './requests.js'
-import { showContent, runtimeFilter, addMore, killCron, fireCron, updateSetts } from './frontend-magic-tricks.js';
+import { addTarget, fetchData } from './requests.js'
+import { showContent, runtimeFilter, addMore, killCron, fireCron, updateSetts, delProgram } from './frontend-magic-tricks.js';
 
 document.body.addEventListener('load', fetchData())
 document.getElementById("recon").addEventListener('click', addTarget);
@@ -14,4 +14,4 @@ window.filterData = filterData;
 window.killCron = killCron;
 window.fireCron = fireCron;
 window.updateSetts = updateSetts
-window.copyOnTap = copyOnTap
+window.delProgram = delProgram

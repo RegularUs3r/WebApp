@@ -54,7 +54,12 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
         if (check === false){
             if(processedLink.includes("google") || processedLink.includes("getbootstrap") || processedLink.includes("github") || processedLink.includes("fontawesome") || processedLink.includes("jquery.com")){   
             }else{
-                await addLinks(processedLink, subdomain)
+                try{
+                    await addLinks(processedLink, subdomain)
+                }catch(error){
+                    console.log(`Couldn't add link - ${processedLink}`)
+                }
+                
                 const r = await tryFetch(`${processedLink}.map`) ?? await tryFetch(processedLink)
                 const txt_response = r?.clone()
                 if(!r) continue

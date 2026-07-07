@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProgram, getData, getHooks, cronState, killJob, fireJob, updateSets } from "../controllers/controllers";
+import { addProgram, getData, getHooks, cronState, killJob, fireJob, updateSets, deleteProgram } from "../controllers/controllers";
 import { validator } from "../middleware/middle";
 
 
@@ -15,5 +15,9 @@ router.post('/api/cron', cronState)
 router.post('/api/fireJob', fireJob)
 
 router.patch('/api/updatesetts', updateSets)
+
+router.delete('/api/program/:program', deleteProgram)
+
+
 
 export default router;

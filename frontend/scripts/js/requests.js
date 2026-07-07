@@ -54,7 +54,7 @@ export async function addTarget(){
         }catch(error){
             console.log(`Some error ${error}`)
         }finally{
-            // window.location.reload()
+            window.location.reload()
         }
                 
 }

@@ -4,6 +4,7 @@ import { continuous, stopCron } from "../services/cronService";
 import { checkLinksAgainstSubdomains, getCronState, getNotifyConfig, getProgramName, getSubdomains } from "../models/getStuffDB";
 import { updateSetts } from "../models/updateSuffDB";
 import { update } from "../services/updateSettings";
+import { removeProgram } from "../models/remStuffDB";
 
 const cronOptions: { [key: string]: string } = {
         '1M':  '* * * * *',
@@ -87,4 +88,10 @@ export const updateSets = async(req: Request, res: Response): Promise<void> => {
     const {program_name, discord_hook, choice, setcron} = req.body
     await update(program_name, discord_hook, choice, setcron)
     res.json({"message": "OK!"})
+}
+
+export const deleteProgram = async(req: Request, res: Response): Promise<void> => {
+    const program = req.params.program
+    await removeProgram(String(program))
+    res.json({"message": "foobar"})
 }
