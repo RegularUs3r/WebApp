@@ -34,10 +34,10 @@ await pool.query(
     [programName]
 )
 
-await pool.query(
-    `DELETE FROM jobs WHERE p_name = (SELECT id FROM programname WHERE name = $1)`,
-    [programName]
-)
+// await pool.query(
+//     `DELETE FROM jobs WHERE p_name = (SELECT id FROM programname WHERE name = $1)`,
+//     [programName]
+// )
 
 await pool.query(
     `DELETE FROM programname WHERE name = $1`,

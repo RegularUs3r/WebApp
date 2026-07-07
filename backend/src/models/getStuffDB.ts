@@ -57,13 +57,13 @@ export const checkLinksAgainstSubdomains = async(link: string): Promise<boolean>
     return data[0]
 }
 
-export const getCronState = async(programName: string): Promise<any> => {
-    console.log(programName)
-    const results = await pool.query(
-        'SELECT status FROM jobs WHERE p_name = (select id from programname where name = $1)',
-        [programName]
-    )
-    const data = results.rows.map(item => item)
-    console.log(data)
-    return data
-}
+// export const getCronState = async(programName: string): Promise<any> => {
+//     console.log(programName)
+//     const results = await pool.query(
+//         'SELECT status FROM jobs WHERE p_name = (select id from programname where name = $1)',
+//         [programName]
+//     )
+//     const data = results.rows.map(item => item)
+//     console.log(data)
+//     return data
+// }
