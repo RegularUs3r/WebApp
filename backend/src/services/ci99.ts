@@ -9,7 +9,6 @@ export const c99 = async(domain: string): Promise<string[]> => {
         const data = await response.json()
         try{
             for (var i of data.subdomains){
-                console.log(i)
                 subdomains.push(i.subdomain)
             }
         }catch(error){
@@ -17,7 +16,7 @@ export const c99 = async(domain: string): Promise<string[]> => {
         }
 
     }catch(error){
-        console.error('Failed to fetch user details:')
+        console.error('Missing some information')
     }
     return subdomains
 

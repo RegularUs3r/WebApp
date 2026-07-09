@@ -221,14 +221,19 @@ export function showContent(){
 async function fetchHooks(){
     const hooks = await fetch('/api/gethooks')
     const data = await hooks.json()
-    const table = document.createElement("table")
-    table.border = "1px"
+    
     const divConfig = document.createElement("div")
     divConfig.id = "display_config"
+    divConfig.className = "container"
     divConfig.style.display = "none"
     divConfig.style.justifyContent = "center"
+    divConfig.style.flexDirection = "column"
+    divConfig.style.alignItems = "center"
     for(const content of Object.values(data)){
         for(const [program, data] of Object.entries(content)){
+            const table = document.createElement("table")
+            const dynamicDiv = document.createElement("div")
+            dynamicDiv.id = program
             const foobar = program
             const tablerow = document.createElement("thead")
             const tablerow2 = document.createElement("thead")
@@ -250,20 +255,20 @@ async function fetchHooks(){
             const input4 = document.createElement("input")
 
             const stopCron = document.createElement("button")
-            stopCron.textContent = `Stop - ${program}`
+            stopCron.textContent = `Stop Cronjob`
             stopCron.id = "stopCron"
-            stopCron.setAttribute("onclick", `killCron('${stopCron.textContent}')`)
+            stopCron.setAttribute("onclick", `killCron('${dynamicDiv.id}')`)
 
             const firejob = document.createElement("button")
-            firejob.textContent = `Fire - ${program}`
+            firejob.textContent = `Fire Cronjob`
             firejob.id = "firejob"
-            firejob.setAttribute("onclick", `fireCron('${firejob.textContent}')`)   
+            firejob.setAttribute("onclick", `fireCron('${dynamicDiv.id}')`)   
             
             
             const deleteProgram = document.createElement("button")
-            deleteProgram.textContent = `Delete - ${program}`
+            deleteProgram.textContent = `Delete Program`
             deleteProgram.id = "deleteProgram"
-            deleteProgram.setAttribute("onclick", `delProgram('${deleteProgram.textContent}')`)
+            deleteProgram.setAttribute("onclick", `delProgram('${dynamicDiv.id}')`)
 
             const {id, period, hook, options, p_name} = data
 
@@ -286,9 +291,9 @@ async function fetchHooks(){
             td_options.appendChild(input4)
 
             const update = document.createElement("button")
-            update.textContent = `Update - ${program}`
+            update.textContent = `Update Settings`
             update.id = "update"
-            update.setAttribute("onclick", `updateSetts('${update.textContent}')`)
+            update.setAttribute("onclick", `updateSetts('${dynamicDiv.id}')`)
 
             td_buttonUpdate.appendChild(update)
             td_buttonFireJob.appendChild(firejob)
@@ -306,41 +311,137 @@ async function fetchHooks(){
 
             table.appendChild(tablerow)
             table.appendChild(tablerow2)
-            divConfig.appendChild(table)
+            dynamicDiv.appendChild(table)
+            divConfig.appendChild(dynamicDiv)
         }
     }
     document.body.appendChild(divConfig)
     document.getElementById("display_config").style.display = "flex"
 }
 
+// async function fetchHooks(){
+//     const hooks = await fetch('/api/gethooks')
+//     const data = await hooks.json()
+//     const table = document.createElement("table")
+//     table.border = "1px"
+//     const divConfig = document.createElement("div")
+//     divConfig.id = "display_config"
+//     divConfig.className = "container"
+//     divConfig.style.display = "none"
+//     divConfig.style.justifyContent = "center"
+//     for(const content of Object.values(data)){
+//         for(const [program, data] of Object.entries(content)){
+//             const dynamicDiv = document.createElement("div")
+//             dynamicDiv.id = program
+//             const foobar = program
+//             const tablerow = document.createElement("thead")
+//             const tablerow2 = document.createElement("thead")
+
+//             const td_programname = document.createElement("td")
+
+//             const td_options = document.createElement("td")
+//             const input2 = document.createElement("input")
+
+//             const td_period = document.createElement("td")
+//             const input3 = document.createElement("input")
+
+//             const td_buttonUpdate = document.createElement("td")
+//             const td_buttonStopCron = document.createElement("td")
+//             const td_buttonFireJob = document.createElement("td")
+//             const td_buttonDeleteProgram = document.createElement("td")
+
+//             const td_hook = document.createElement("td")
+//             const input4 = document.createElement("input")
+
+//             const stopCron = document.createElement("button")
+//             stopCron.textContent = `Stop - ${program}`
+//             stopCron.id = "stopCron"
+//             stopCron.setAttribute("onclick", `killCron('${stopCron.textContent}')`)
+
+//             const firejob = document.createElement("button")
+//             firejob.textContent = `Fire - ${program}`
+//             firejob.id = "firejob"
+//             firejob.setAttribute("onclick", `fireCron('${firejob.textContent}')`)   
+            
+            
+//             const deleteProgram = document.createElement("button")
+//             deleteProgram.textContent = `Delete - ${program}`
+//             deleteProgram.id = "deleteProgram"
+//             deleteProgram.setAttribute("onclick", `delProgram('${deleteProgram.textContent}')`)
+
+//             const {id, period, hook, options, p_name} = data
+
+            
+//             td_programname.textContent = program
+            
+//             input2.value = options
+//             input2.style.fieldSizing = "content"
+//             input2.id = `${program}-sets-options`
+//             td_period.appendChild(input2)
+
+//             input3.value = period
+//             input3.style.fieldSizing = "content"
+//             input3.id = `${program}-sets-period`
+//             td_hook.appendChild(input3)
+            
+//             input4.value = hook
+//             input4.style.boxSizing = "border-box"
+//             input4.id = `${program}-sets-hook`
+//             td_options.appendChild(input4)
+
+//             const update = document.createElement("button")
+//             update.textContent = `Update - ${program}`
+//             update.id = "update"
+//             update.setAttribute("onclick", `updateSetts('${update.textContent}')`)
+
+//             td_buttonUpdate.appendChild(update)
+//             td_buttonFireJob.appendChild(firejob)
+//             td_buttonStopCron.appendChild(stopCron)
+//             td_buttonDeleteProgram.appendChild(deleteProgram)
+
+//             tablerow.appendChild(td_programname)
+//             tablerow.appendChild(td_hook)
+//             tablerow.appendChild(td_options)
+//             tablerow.appendChild(td_period)
+//             tablerow2.appendChild(td_buttonUpdate)
+//             tablerow2.appendChild(td_buttonFireJob)
+//             tablerow2.appendChild(td_buttonStopCron)
+//             tablerow2.appendChild(td_buttonDeleteProgram)
+
+//             table.appendChild(tablerow)
+//             table.appendChild(tablerow2)
+//             dynamicDiv.appendChild(table)
+//             divConfig.appendChild(dynamicDiv)
+//         }
+//     }
+//     document.body.appendChild(divConfig)
+//     document.getElementById("display_config").style.display = "flex"
+// }
+
 
 export async function fireCron(intel){
-    const program = intel.split(" - ")[1]
     const response = await fetch('/api/firejob', {
         method: 'POST',
         headers: {"Content-Type": "Application/json"},
-        body: JSON.stringify({"programName": program})
+        body: JSON.stringify({"programName": intel})
     })
     const data = await response.json()
 }
 
 export async function killCron(intel){
-    const program = intel.split(" - ")[1]
-    const response = await fetch(`/api/killjob/${program}`)
+    const response = await fetch(`/api/killjob/${intel}`)
     const data = await response.json()
 }
 
 export async function delProgram(intel){
-    const program = intel.split(" - ")[1]
-    const response = await fetch(`/api/program/${program}`, {method: 'DELETE'})
+    const response = await fetch(`/api/program/${intel}`, {method: 'DELETE'})
     const data = await response.json()
     window.location.reload()
 }
 
 export async function updateSetts(intel){
     const map = new Map()
-    const program = intel.split(" - ")[1]
-    const all = document.querySelectorAll(`input[id*=${program}]`)
+    const all = document.querySelectorAll(`input[id*=${intel}]`)
     let options = ""
     let period = ""
     let hook = ""
@@ -353,7 +454,7 @@ export async function updateSetts(intel){
             hook = value.value
         }
     }
-    const data = {program_name: program, discord_hook: hook, choice: options, setcron: period}
+    const data = {program_name: intel, discord_hook: hook, choice: options, setcron: period}
     const response = await fetch('/api/updatesetts', {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},

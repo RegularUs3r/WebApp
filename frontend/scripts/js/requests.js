@@ -93,13 +93,16 @@ export async function fetchData(){
 
             const tdata = document.createElement("td")
             for(const content of items){
+                const a = document.createElement("a")
                 const tr = document.createElement("tr")
                 const td = document.createElement("td")
                 const {subdomain, status} = content
                 const info = subdomain + " - " + status
-                td.textContent = info
+                a.target = "_blank"
+                a.href = `https://${subdomain}`
+                a.textContent = info
+                td.appendChild(a)
                 td.id = subdomain
-                td.setAttribute("onclick", `navigator.clipboard.writeText('${subdomain}')`)
                 tr.id = "data-row"
                 tr.appendChild(td)
                 tbody.appendChild(tr)

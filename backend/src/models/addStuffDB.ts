@@ -2,7 +2,6 @@ import pool from "../database/database"
 import { addSubdomainsWithCodeBluePrint, mapLinkBluePrint } from "../types/interfaces"
 
 export const addProgramName = async(programName: string): Promise<void> => {
-    console.log(programName)
     await pool.query(
         `INSERT INTO programname (name) VALUES ($1) ON CONFLICT (name) DO NOTHING`,
         [programName]
