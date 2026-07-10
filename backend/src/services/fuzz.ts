@@ -13,7 +13,6 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
         let leftover = ''
         const command = spawn('ffuf', ['-json', '-ic', '-r', '-t', '4', '-p', '0.1', '-u', `https://${domain}/FUZZ`, '-w', '/home/ubuntu/webapp2/frontend/foo.txt', '-mc', 'all'])
         command.stdout.on('data', (data) => {
-
             leftover += data.toString()
             const lines = leftover.split('\n')
             leftover = lines.pop() ?? ''
@@ -42,6 +41,7 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
                 if (dictsLength <= 10) {
                     for(const word of payload.payloads){
                         const data = target[0]+"/"+word + " - " + key
+                        console.log(data)
                         await notify("Fuzzer", [data], program_name)
                     }
                     

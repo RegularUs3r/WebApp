@@ -1,22 +1,18 @@
 require('dotenv').config();
 
-import { getProgramName } from "../models/getStuffDB";
 import { fuzzModule } from "../services/fuzz";
 import { connectRabbitMQ } from "./connection"
 import { consumeFromQueue } from "./consumer"
 
+const handler = async (content: string) => {
+    const { subdomain, program_name } = JSON.parse(content)
+    await fuzzModule(subdomain, program_name)
+}
+
 const start = async () => {
     await connectRabbitMQ()
-    const names = await getProgramName()
-    for(const name of names){
-        await consumeFromQueue(name, async (content) => {
-        const payload = JSON.parse(content)
-        const {subdomain, program_name} = payload
-        fuzzModule(subdomain, program_name)
-    })
-
-    }
-    console.log("Worker listening...")
+    await consumeFromQueue("fuzz_jobs", handler)
+    console.log(`Worker listening on fuzz_jobs`)
 }
 
 start().catch((err) => {

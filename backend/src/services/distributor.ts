@@ -1,6 +1,5 @@
 import { addProgramName, addBaseTargets, addNotifyConfig } from "../models/addStuffDB"
 import { c99 } from "./ci99"
-import { notify } from "./notifier"
 import { subfinderModule } from "./subfinder"
 import { prober } from "./validator"
 
