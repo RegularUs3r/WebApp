@@ -18,6 +18,7 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
             leftover = lines.pop() ?? ''
 
             for(const line of lines){
+                console.log(line)
                 const intel = JSON.parse(line)
                 const size = String(intel.length)
                 if (!(size in onTheFly)) {

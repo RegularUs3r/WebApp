@@ -12,10 +12,6 @@ export const c99 = async(domain: string): Promise<string[]> => {
                 subdomains.push(i.subdomain)
             }
         }
-        // try{
-        // }catch(error){
-        //     console.error("c99: unexpected response shape")
-        // }
 
     }catch(error){
         console.error('Missing some information')
