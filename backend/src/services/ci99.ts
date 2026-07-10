@@ -7,13 +7,15 @@ export const c99 = async(domain: string): Promise<string[]> => {
         }
         
         const data = await response.json()
-        try{
+        if(!data.error){
             for (var i of data.subdomains){
                 subdomains.push(i.subdomain)
             }
-        }catch(error){
-            console.error("c99: unexpected response shape")
         }
+        // try{
+        // }catch(error){
+        //     console.error("c99: unexpected response shape")
+        // }
 
     }catch(error){
         console.error('Missing some information')
