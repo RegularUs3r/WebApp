@@ -36,7 +36,14 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
 
         })
 
-        command.on('close', async() => {
+        command.stderr.on('data', (data) => {
+            console.error(`ffuf stderr [${domain}]:`, data.toString())
+        })
+
+        command.on('close', async(code) => {
+            if (code !== 0) {
+                console.error(`ffuf exited with code ${code} for ${domain}`)
+            }
             for (const [key, payload] of Object.entries(onTheFly)) {
                 const dictsLength = payload.payloads.length
                 if (dictsLength <= 10) {

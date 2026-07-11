@@ -6,7 +6,18 @@ import { consumeFromQueue } from "./consumer"
 
 const handler = async (content: string) => {
     const { subdomain, program_name } = JSON.parse(content)
-    await fuzzModule(subdomain, program_name)
+
+    fuzzModule(subdomain, program_name)
+        .then(() => {
+            console.log(`Fuzzing finished for ${subdomain}`)
+            // e.g. mark job "done" in DB
+        })
+        .catch((err) => {
+            console.error(`Fuzzing failed for ${subdomain}:`, err)
+            // e.g. mark job "failed" in DB
+        })
+
+    // no await above — handler resolves almost instantly, so consumer.ts's channel.ack(msg) fires right away
 }
 
 const start = async () => {
