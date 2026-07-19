@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 export const subfinderModule = (domain: string): Promise<string[]> => {
     return new Promise((resolve, reject) => {
         let raw = '';
-        const command = spawn('subfinder', ['-d', domain])
+        const command = spawn('subfinder', ['-all', '-d', domain])
         command.stdout.on('data', (data) => {
             raw += data.toString();
         

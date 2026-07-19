@@ -18,7 +18,6 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
             leftover = lines.pop() ?? ''
 
             for(const line of lines){
-                console.log(line)
                 const intel = JSON.parse(line)
                 const size = String(intel.length)
                 if (!(size in onTheFly)) {
@@ -37,7 +36,7 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
         })
 
         command.stderr.on('data', (data) => {
-            console.error(`ffuf stderr [${domain}]:`, data.toString())
+            console.error(`ffuf stderr [${domain}]:`)
         })
 
         command.on('close', async(code) => {
@@ -46,6 +45,7 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
             }
             for (const [key, payload] of Object.entries(onTheFly)) {
                 const dictsLength = payload.payloads.length
+                console.log(`Dict length - ${dictsLength}`)
                 if (dictsLength <= 10) {
                     for(const word of payload.payloads){
                         const data = target[0]+"/"+word + " - " + key
