@@ -14,8 +14,7 @@ export const prober = async(subs: string[], program_name: string, live: boolean)
             console.log(`To add ${sub}`)
             await addSubdomainsWithCode(sub,  response.status, program_name, live)
             await linkExtractor(sub, live, program_name)
-            // if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
-            if(response.status === 200){
+            if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
                 await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
             }
         }else{
