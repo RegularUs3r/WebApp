@@ -1,3 +1,5 @@
+import { shodanModule } from "./shodan";
+
 export const c99 = async(domain: string): Promise<string[]> => {
     const subdomains: string[] = []
     try{
@@ -14,7 +16,7 @@ export const c99 = async(domain: string): Promise<string[]> => {
         }
 
     }catch(error){
-        console.error('Missing some information')
+        console.error('Some error occured: ', error)
     }
     return subdomains
 

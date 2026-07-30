@@ -1,3 +1,4 @@
+import { spawn } from 'child_process'
 import { addSubdomainsWithCode } from "../models/addStuffDB"
 import { sendToQueue } from "../queue/producer"
 import { linkExtractor } from "./extractor"
