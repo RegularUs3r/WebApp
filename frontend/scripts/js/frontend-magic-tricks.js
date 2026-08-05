@@ -174,7 +174,7 @@ export function showContent(){
 
     const const_divs = document.querySelectorAll('div.container')
     for(let i = 3; i < const_divs.length; i++){
-        console.log(const_divs[i].id)
+        // console.log(const_divs[i].id)
         const one_ahead = i + 1
         try{
             localStorage.setItem(const_divs[i].id, const_divs[one_ahead].id)
@@ -198,7 +198,6 @@ export function showContent(){
                         document.getElementById("display_hooks").style.display = "block"
                     }else if (button.id === "display_hooks"){
                         fetchHooks()
-                        console.log(button.id)
                         shownDiv.style.display = "none"
                         document.getElementById(button.id).style.display = "none"
                         document.getElementById("display_settings").style.display = "block"
@@ -206,7 +205,7 @@ export function showContent(){
                         shownDiv.style.display = "none"
                         const hiddenDivs = document.querySelectorAll(`div[id*="${button.id}"]`)
                         for(const hiddenDiv of hiddenDivs){
-                            console.log(hiddenDiv.style.display = "flex")
+                            hiddenDiv.style.display = "flex"
                         }
                         document.getElementById("display_hooks").style.display = "none"
                         document.getElementById("display_settings").style.display = "block"

@@ -36,7 +36,7 @@ export const fuzzModule = (domain: string, program_name: string): Promise<void> 
         })
 
         command.stderr.on('data', (data) => {
-            console.error(`ffuf stderr [${domain}]:`)
+            // console.error(`ffuf stderr [${domain}]:`)
         })
 
         command.on('close', async(code) => {

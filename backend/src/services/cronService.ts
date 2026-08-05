@@ -1,4 +1,4 @@
-import { getBaseTargets, getNotifyConfig, getProgramName } from "../models/getStuffDB"
+import { getBaseTargets, getNotifyConfig, getPname, getProgramName, getProgramNameByPname } from "../models/getStuffDB"
 import { brancher } from "./distributor";
 import cron from "node-cron";
 import { notify } from "./notifier";
@@ -34,4 +34,18 @@ export const stopCron = async(programName: string): Promise<void> => {
         activeCrons.delete(target)
 
     }
+}
+
+export const getActiveCrons = async (): Promise<string[]> => {
+    var programName = []
+    const targets = Array.from(activeCrons.keys())
+    if(targets !== undefined){
+        for(const target of targets){
+            const p_name = await getPname(target)
+            programName.push(String(await getProgramNameByPname(p_name)))
+
+        }
+    }
+    console.log(programName)
+    return programName
 }

@@ -9,6 +9,15 @@ export const getProgramName = async(): Promise<string[]> => {
     return data
 }
 
+export const getProgramNameByPname = async(p_name: string): Promise<string[]> => {
+    const results = await pool.query(
+        'SELECT name FROM programname WHERE id = $1',
+        [p_name]
+    )
+    const data = results.rows.map(item => item.name)
+    return data
+}
+
 //A.I helped with this interface return type
 export const getNotifyConfig = async(program_name: string): Promise<CronDataBluePrint | undefined> => {
                                     //Didn't know I could do this
@@ -63,4 +72,13 @@ export const getSecret = async(): Promise<any> => {
     )
     const secret = result.rows[0]?.secret ?? null
     return secret
+}
+
+export const getPname = async(host: string): Promise<string> => {
+    const result = await pool.query(
+        'SELECT p_name FROM hosts WHERE domain = $1',
+        [host]
+    )
+    const data = result.rows[0].p_name
+    return data
 }

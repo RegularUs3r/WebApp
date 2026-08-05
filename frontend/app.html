@@ -7,6 +7,17 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>AssetMonitor</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
+    <style>
+        .badge-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 5px;
+            height: 5px;
+            border-radius: 100%;
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="container" id="group-buttons">
@@ -49,8 +60,50 @@
             <button value="submit" id="recon">Add Target(s)</button>
             <button value="submit" id="add">+</button>
         </div>
-
     </div>
     <div class="container" id="hooks-view" style="display: none;"></div>
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function addRedDot(buttonId) {
+            const button = document.getElementById(buttonId)
+            if (button === null) {
+                return
+            }
+
+            if (button.querySelector(".badge-dot") !== null) {
+                return
+            }
+
+            button.style.position = "relative"
+
+            const dot = document.createElement("span")
+            dot.className = "badge-dot"
+            button.appendChild(dot)
+        }
+
+        function removeRedDot(buttonId) {
+            const button = document.getElementById(buttonId)
+            if (button === null) {
+                return
+            }
+
+            const dot = button.querySelector(".badge-dot")
+            if (dot !== null) {
+                dot.remove()
+            }
+        }
+
+        window.onload = async function run() {
+            const r = await fetch('/api/getcrons')
+            const data = await r.json()
+            console.log(data)
+            for(const button_id of data.status){
+                addRedDot(button_id)
+            }
+        }
+    </script>
 </body>
 </html>

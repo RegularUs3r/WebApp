@@ -1,5 +1,3 @@
-import { shodanModule } from "./shodan";
-
 export const c99 = async(domain: string): Promise<string[]> => {
     const subdomains: string[] = []
     try{

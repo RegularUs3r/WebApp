@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { brancher } from "../services/distributor";
-import { continuous, stopCron } from "../services/cronService";
+import { continuous, getActiveCrons, stopCron } from "../services/cronService";
 import { checkLinksAgainstSubdomains, getNotifyConfig, getProgramName, getSubdomains } from "../models/getStuffDB";
 import { updateSetts } from "../models/updateSuffDB";
 import { update } from "../services/updateSettings";
@@ -67,10 +67,11 @@ export const getHooks = async(req: Request, res: Response): Promise<void> => {
     
 }
 
-// export const cronState = async(req: Request, res: Response): Promise<void> => {
-//     console.log(req.body)
-//     const result = await getCronState(req.body.programName)
-// }
+export const getCrons = async(req: Request, res: Response): Promise<void> => {
+    const result = await getActiveCrons()
+    res.json({"status": result})
+    // console.log(result)
+}
 
 export const killJob = async(req: Request, res: Response): Promise<void> => {
     const programName = req.params.program

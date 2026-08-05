@@ -39,7 +39,6 @@ export async function addTarget(){
         try{
             for(let data = 0; data < ProgramName.length; data++){
                 const content = {program_name: ProgramName[data], target: Targets[data], discord_hook: DiscrodBot[data], setcron: Sched[data], choice: [choice]}
-                console.log(content)
                 const response = await fetch('/api/add-program',{
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
