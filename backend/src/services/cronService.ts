@@ -37,12 +37,14 @@ export const stopCron = async(programName: string): Promise<void> => {
 }
 
 export const getActiveCrons = async (): Promise<string[]> => {
-    var programName = []
+    var programName: string[] = []
     const targets = Array.from(activeCrons.keys())
     if(targets !== undefined){
         for(const target of targets){
             const p_name = await getPname(target)
-            programName.push(String(await getProgramNameByPname(p_name)))
+            if(!programName.includes(String(await getProgramNameByPname(p_name)))){
+                programName.push(String(await getProgramNameByPname(p_name)))
+            }
 
         }
     }
