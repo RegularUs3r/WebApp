@@ -43,13 +43,13 @@ export const prober = async(subs: string[], program_name: string, live: boolean)
         if(response === undefined || response === null) return
         if(live === false){
             console.log(`To add ${sub}`)
-            await addSubdomainsWithCode(sub,  String(response.status), program_name, live)
+            await addSubdomainsWithCode(sub,  response.status, program_name, live)
             await linkExtractor(sub, live, program_name)
             if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
                 await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
             }
         }else{
-            const data = await addSubdomainsWithCode(sub,  String(response.status), program_name, live)
+            const data = await addSubdomainsWithCode(sub,  response.status, program_name, live)
             await linkExtractor(sub, live, program_name)
             if(data === undefined) return
             const {subdomain, status} = data

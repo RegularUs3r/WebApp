@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS hosts (
 CREATE TABLE IF NOT EXISTS subdomains (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     subdomain VARCHAR(255) UNIQUE,
-    status INTEGER,
+    status VARCHAR(255),
     created_at TIMESTAMP DEFAULT NOW(),
     p_name UUID REFERENCES programName(id) NOT NULL
 );

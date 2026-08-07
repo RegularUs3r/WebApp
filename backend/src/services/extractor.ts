@@ -80,10 +80,10 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                     const data = await txt_response.text()
                     if(live === true){
                         const old_response_body = await getResponse(processedLink)
-                        await checkFile(old_response_body, data, processedLink, program_name)
+                        // await checkFile(old_response_body, data, processedLink, program_name)
                     }else{
                         const encodedData = Buffer.from(data, 'utf8').toString('base64')
-                        await addResponse(encodedData, subdomain, processedLink)
+                        // await addResponse(encodedData, subdomain, processedLink)
                     }
                 }catch(error){
                     console.error("Something went wrong")
