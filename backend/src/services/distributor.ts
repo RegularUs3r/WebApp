@@ -12,7 +12,6 @@ export const brancher = async(program_name: string, discord_hook: string, setcro
         await addNotifyConfig(setcron, discord_hook, choice[0] ?? "", program_name)
     }
     if(choice[0]?.includes("c99")){
-        console.log("C99 aqui!")
         const subdomains = await c99(target)
         await prober(subdomains, program_name, live)
         //this throws JavaScript heap out of Memory

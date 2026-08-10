@@ -14,7 +14,7 @@ export const c99 = async(domain: string): Promise<string[]> => {
         }
 
     }catch(error){
-        console.error('Some error occured: ', error)
+        console.error('Some error occured')
     }
     return subdomains
 
