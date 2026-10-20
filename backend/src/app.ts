@@ -10,7 +10,7 @@ const app: Application = express();
 
 app.use(express.json())
 app.get('/images/favicon.png', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/images/favicon.png'))
+    res.sendFile(path.join(__dirname, '..', 'frontend/images/favicon.png'))
 })
 app.use((req, res, next) => {
     res.setHeader('Cache-control', 'no-cache');
@@ -27,6 +27,6 @@ app.use(session({
 app.use('/', authrouter)
 app.use(requireAuth);
 app.use('/', router)
-app.use(express.static(path.join(__dirname, '../../frontend')))
+app.use(express.static(path.join(__dirname, '../frontend')))
 
 export default app

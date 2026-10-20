@@ -27,7 +27,7 @@ export const getMfa = async(req: Request, res: Response): Promise<void> => {
         res.redirect('/');
         return;
     }
-    res.sendFile(path.join(__dirname, '..', '..', '..', 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'index.html'));
 
 }
 

@@ -6,16 +6,16 @@ RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.6 
 # ---- Build the TypeScript ----
 FROM node:22-slim AS build
 WORKDIR /app
-COPY WebApp/package*.json ./
+COPY package*.json ./
 RUN npm ci                      # needs lockfile — see note
-COPY WebApp/ .
+COPY  .
 RUN npm run build               # -> /app/dist
 
 # ---- Runtime ----
 FROM node:22-slim
 WORKDIR /app
 ENV NODE_ENV=production
-COPY WebApp/package*.json ./
+COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
 COPY WebApp/frontend ./frontend
