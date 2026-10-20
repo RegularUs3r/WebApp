@@ -7,6 +7,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     env_file:
       - gluetun.env
+    restart: unless-stopped
 
   postgresql:
     image: postgres:17
@@ -19,8 +20,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U foobar -d webapp"]
       interval: 5s
-      retries: 10
-
+      retries: 5
+    restart: unless-stopped
+  
   rabbitmq:
     image: rabbitmq:4-management
     environment:
@@ -30,11 +32,12 @@ services:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
       retries: 10
+    restart: unless-stopped
 
   # web app — NORMAL network
   server:
     build: .
-    command: ["npm", "run", "dev"]
+    command: ["npm", "start"]
     ports:
       - "8000:3000"
     env_file:
@@ -42,11 +45,12 @@ services:
     depends_on:
       postgresql: { condition: service_healthy }
       rabbitmq:   { condition: service_healthy }
+    restart: unless-stopped
 
   # fuzz worker — THROUGH the VPN
   worker:
     build: .
-    command: ["npm", "run", "dev:worker"]
+    command: ["npm", "run", "start:worker"]
     network_mode: "service:gluetun"
     env_file:
       - .env
@@ -56,6 +60,7 @@ services:
       gluetun:    { condition: service_healthy }
       postgresql: { condition: service_healthy }
       rabbitmq:   { condition: service_healthy }
+    restart: unless-stopped
 
 volumes:
   pgdata:

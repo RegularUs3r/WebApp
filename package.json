@@ -8,26 +8,24 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^2.0.1",
-    "cron": "^4.4.0",
+    "diff": "^9.0.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "pg": "^8.22.0"
+    "express-session": "^1.19.0",
+    "node-cron": "^4.4.1",
+    "node-html-parser": "^7.1.0",
+    "otplib": "^13.4.1",
+    "pg": "^8.22.0",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.8",
-    "@types/cron": "^2.0.1",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
     "@types/node": "^26.1.0",
     "@types/pg": "^8.20.0",
     "@types/qrcode": "^1.5.6",
-    "diff": "^9.0.0",
-    "dotenv": "^17.4.2",
-    "express-session": "^1.19.0",
-    "node-cron": "^4.4.1",
-    "node-html-parser": "^7.1.0",
     "nodemon": "^3.1.14",
-    "otplib": "^13.4.1",
-    "qrcode": "^1.5.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^6.0.3"
   },
@@ -35,6 +33,7 @@
     "dev": "nodemon --exec ts-node backend/src/server.ts",
     "dev:worker": "nodemon --exec ts-node backend/src/queue/worker.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "start:worker": "node dist/queue/worker.js"
   }
 }
