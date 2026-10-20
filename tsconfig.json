@@ -3,7 +3,7 @@
   "compilerOptions": {
     // File Layout
     // "target": "es2020",
-    "rootDir": "./src",
+    "rootDir": "./backend/src",
     "outDir": "./dist",
 
     // Environment Settings

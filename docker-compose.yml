@@ -1,0 +1,61 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.41.3
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    env_file:
+      - gluetun.env
+
+  postgresql:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: foobar
+      POSTGRES_PASSWORD: foobar
+      POSTGRES_DB: webapp
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foobar -d webapp"]
+      interval: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: foobar
+      RABBITMQ_DEFAULT_PASS: foobar
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      retries: 10
+
+  # web app — NORMAL network
+  server:
+    build: .
+    command: ["npm", "run", "dev"]
+    ports:
+      - "8000:3000"
+    env_file:
+      - .env
+    depends_on:
+      postgresql: { condition: service_healthy }
+      rabbitmq:   { condition: service_healthy }
+
+  # fuzz worker — THROUGH the VPN
+  worker:
+    build: .
+    command: ["npm", "run", "dev:worker"]
+    network_mode: "service:gluetun"
+    env_file:
+      - .env
+    volumes:
+      - ./wordlists:/home/ubuntu/WebApp/backend/wordlists:ro
+    depends_on:
+      gluetun:    { condition: service_healthy }
+      postgresql: { condition: service_healthy }
+      rabbitmq:   { condition: service_healthy }
+
+volumes:
+  pgdata:
