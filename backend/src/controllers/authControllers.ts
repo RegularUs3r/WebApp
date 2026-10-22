@@ -4,30 +4,35 @@ import { OTP } from 'otplib';
 import * as QRCode from 'qrcode';
 import { addSecret } from "../models/addStuffDB";
 import { getSecret } from "../models/getStuffDB";
+import { error } from "console";
 
 
 const otp = new OTP({ strategy: 'totp'})
 export const getMfa = async(req: Request, res: Response): Promise<void> => {
 
-    const storedSecret = await getSecret()
-    if(storedSecret === null){
-        const secret = otp.generateSecret()
-        await addSecret(secret)
-        
-        const uri = otp.generateURI({
-            issuer: 'AssetMonitor',
-            label: 'Dev',
-            secret: secret
-        });
-        const terminalQR: string = await QRCode.toString(uri, {type: 'terminal'})
-        console.log(terminalQR)
+    try{
+        const storedSecret = await getSecret()
+        if(storedSecret === null){
+            const secret = otp.generateSecret()
+            await addSecret(secret)
+            
+            const uri = otp.generateURI({
+                issuer: 'AssetMonitor',
+                label: 'Dev',
+                secret: secret
+            });
+            const terminalQR: string = await QRCode.toString(uri, {type: 'terminal'})
+            console.log(terminalQR)
+        }
+    }catch (e){
+        console.log(e)
     }
 
     if (req.session.authenticated === true) {
         res.redirect('/');
         return;
     }
-    res.sendFile(path.join(__dirname, '..', '..', 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', '..', '..', 'frontend', 'index.html'));
 
 }
 

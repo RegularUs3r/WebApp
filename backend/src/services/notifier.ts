@@ -22,9 +22,30 @@ export const notify = async(botname: string, info: string[], program_name: strin
             }
 
         }
-    }else if(botname === "Map Finder"){
-        const data = {username: botname, content: `${info.join(",").replace(/,/g, "\n")}`}
-        await doRequest(data)
+    }else if(botname.includes("Map Finder")){
+        const firstEmbed: string[] = [];
+        const secondEmbed: string[] = [];
+        try {
+            for (const line of String(info).split("\n")) {
+                const currentLen = firstEmbed.reduce((sum, s) => sum + s.length + 1, 0);
+                if (currentLen + line.length + 1 < 4090) {
+                    firstEmbed.push(line);
+                } else {
+                    secondEmbed.push(line);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            process.exitCode = 1;
+        }
+        if(secondEmbed.length > 3){
+            const data = { content: "Map Finder", embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` }, { description: `${String(secondEmbed).replace(/,/g, "\n")}` }],};
+            await doRequest(data)
+        }else{
+            const data = { content: "Map Finder", embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` } ],};
+            await doRequest(data)
+        }
+        
 
     }else if(botname === "Process Runner"){
         const data = {username: botname, content: `${info.join(",").replace(/,/g, "\n")}`}
@@ -35,9 +56,11 @@ export const notify = async(botname: string, info: string[], program_name: strin
     }
     async function doRequest(data: object){
         const response = await fetch(hook, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
         })
+        console.log(data)
+        console.log(response.statusText)
     }
 }
