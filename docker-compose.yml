@@ -39,7 +39,7 @@ services:
     build: .
     command: ["npm", "start"]
     ports:
-      - "8000:3000"
+      - "80:4242"
     env_file:
       - .env
     depends_on:

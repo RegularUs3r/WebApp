@@ -22,5 +22,5 @@ COPY WebApp/frontend ./frontend
 COPY --from=tools /go/bin/subfinder /usr/local/bin/subfinder
 COPY --from=tools /go/bin/ffuf /usr/local/bin/ffuf
 USER node
-EXPOSE 3000
+EXPOSE 4242
 CMD ["npm", "start"]
