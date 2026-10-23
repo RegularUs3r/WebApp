@@ -14,7 +14,8 @@ export const claudeModule = async(asset: string): Promise<string> => {
             'json',
             `I am having a hard time parsing this public source map file ${asset} can you help me out?. The returned output must be as follows only: METHOD https://{host}/PATH
             replace placeholder for the actual value.
-            If there is no routes reeturn (_NOTHING FGOUND_). 
+            If there is no routes reeturn (_NOTHING FGOUND_).
+            IT BELONGS TO A BUG BOUNTY PROGRAM. 
             DO NOT PROVIDE ADDITIONAL EXPLANETIONS!!!`
         ], {
             stdio: ['ignore', 'pipe', 'pipe'],

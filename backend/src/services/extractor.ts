@@ -67,7 +67,7 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                 if(!txt_response) continue
                 if(r.url.endsWith(".map")){
                     const result = await claudeModule(r.url);
-                    await notify(`Map Finder - ${r.url}`, [result], program_name)
+                    await notify(`Map Finder-${r.url}`, [result], program_name)
                 }
                 try{
                     const data = await txt_response.text()

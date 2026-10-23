@@ -39,10 +39,10 @@ export const notify = async(botname: string, info: string[], program_name: strin
             process.exitCode = 1;
         }
         if(secondEmbed.length > 3){
-            const data = { content: "Map Finder", embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` }, { description: `${String(secondEmbed).replace(/,/g, "\n")}` }],};
+            const data = { content: botname, embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` }, { description: `${String(secondEmbed).replace(/,/g, "\n")}` }],};
             await doRequest(data)
         }else{
-            const data = { content: "Map Finder", embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` } ],};
+            const data = { content: botname, embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` } ],};
             await doRequest(data)
         }
         
