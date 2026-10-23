@@ -15,7 +15,7 @@ export const getMfa = async(req: Request, res: Response): Promise<void> => {
         if(storedSecret === null){
             const secret = otp.generateSecret()
             await addSecret(secret)
-            
+
             const uri = otp.generateURI({
                 issuer: 'AssetMonitor',
                 label: 'Dev',
@@ -32,7 +32,7 @@ export const getMfa = async(req: Request, res: Response): Promise<void> => {
         res.redirect('/');
         return;
     }
-    res.sendFile(path.join(__dirname, '..', '..', '..', 'frontend', 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'frontend', 'index.html'));
 
 }
 

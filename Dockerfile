@@ -8,7 +8,7 @@ FROM node:22-slim AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci                      # needs lockfile — see note
-COPY  .
+COPY . .
 RUN npm run build               # -> /app/dist
 
 # ---- Runtime ----
@@ -18,9 +18,10 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
-COPY WebApp/frontend ./frontend
+COPY frontend ./frontend
 COPY --from=tools /go/bin/subfinder /usr/local/bin/subfinder
 COPY --from=tools /go/bin/ffuf /usr/local/bin/ffuf
+RUN apt install curl
 USER node
 EXPOSE 4242
 CMD ["npm", "start"]
