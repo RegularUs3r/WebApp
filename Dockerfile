@@ -21,7 +21,8 @@ COPY --from=build /app/dist ./dist
 COPY frontend ./frontend
 COPY --from=tools /go/bin/subfinder /usr/local/bin/subfinder
 COPY --from=tools /go/bin/ffuf /usr/local/bin/ffuf
-RUN apt install curl
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 USER node
 EXPOSE 4242
 CMD ["npm", "start"]
