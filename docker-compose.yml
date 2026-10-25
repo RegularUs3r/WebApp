@@ -12,9 +12,7 @@ services:
   postgresql:
     image: postgres:17
     environment:
-      POSTGRES_USER: foobar
-      POSTGRES_PASSWORD: foobar
-      POSTGRES_DB: webapp
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
@@ -26,8 +24,9 @@ services:
   rabbitmq:
     image: rabbitmq:4-management
     environment:
-      RABBITMQ_DEFAULT_USER: foobar
-      RABBITMQ_DEFAULT_PASS: foobar
+      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+    ports:
+     - "1337:5672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
@@ -39,7 +38,7 @@ services:
     build: .
     command: ["npm", "start"]
     ports:
-      - "80:4242"
+      - "4242:4242"
     env_file:
       - .env
     depends_on:
@@ -55,7 +54,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./wordlists:/home/ubuntu/WebApp/backend/wordlists:ro
+      - ./backend/wordlists:/home/ubuntu/WebApp/backend/wordlists:ro
     depends_on:
       gluetun:    { condition: service_healthy }
       postgresql: { condition: service_healthy }

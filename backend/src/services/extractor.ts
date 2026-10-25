@@ -66,8 +66,16 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                 if(!r) continue
                 if(!txt_response) continue
                 if(r.url.endsWith(".map")){
-                    const result = await claudeModule(r.url);
-                    await notify(`Map Finder-${r.url}`, [result], program_name)
+                    try{
+                        const response = await r.json()
+                        const sources = response["sources"]
+                        if(sources){
+                            const result = await claudeModule(r.url);
+                            await notify(`Map Finder-${r.url}`, [result], program_name) ?? ""
+                        }
+                    }catch(error){
+                        console.error("Not a .map file")
+                    }
                 }
                 try{
                     const data = await txt_response.text()
