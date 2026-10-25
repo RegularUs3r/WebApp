@@ -13,6 +13,8 @@ services:
     image: postgres:17
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+    env_file:
+     - .env
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
@@ -25,6 +27,8 @@ services:
     image: rabbitmq:4-management
     environment:
       RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+    env_file:
+     - .env
     ports:
      - "1337:5672"
     healthcheck:
