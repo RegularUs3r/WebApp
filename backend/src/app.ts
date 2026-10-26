@@ -10,6 +10,19 @@ const FRONTEND_DIR = path.join(process.cwd(), 'frontend')
 
 const app: Application = express();
 
+const PUBLIC_PWA = ['/manifest.webmanifest', '/sw.js', '/offline.html',
+                    '/images/icon-192.png', '/images/icon-512.png']
+
+app.get(PUBLIC_PWA, (req, res) => {
+  if (req.path === '/sw.js') {
+    res.setHeader('Content-Type', 'application/javascript')
+    res.setHeader('Service-Worker-Allowed', '/')
+  }
+  if (req.path.endsWith('.webmanifest')) res.type('application/manifest+json')
+  res.sendFile(path.join(FRONTEND_DIR, req.path))
+})
+
+
 app.use(express.json())
 app.get('/images/favicon.png', (_req, res) => {
     res.sendFile(path.join(FRONTEND_DIR, 'images', 'favicon.png'))

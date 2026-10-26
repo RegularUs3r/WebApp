@@ -11,26 +11,22 @@ services:
 
   postgresql:
     image: postgres:17
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
     env_file:
      - .env
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U foobar -d webapp"]
+      test: ["CMD-SHELL", "pg_isready -U psqluser -d webapp"]
       interval: 5s
       retries: 5
     restart: unless-stopped
   
   rabbitmq:
     image: rabbitmq:4-management
-    environment:
-      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
     env_file:
      - .env
     ports:
-     - "1337:5672"
+     - "127.0.0.1:8080:15672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
@@ -41,8 +37,11 @@ services:
   server:
     build: .
     command: ["npm", "start"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
     ports:
-      - "4242:4242"
+      - "127.0.0.1:4242:4242"
     env_file:
       - .env
     depends_on:
@@ -55,6 +54,9 @@ services:
     build: .
     command: ["npm", "run", "start:worker"]
     network_mode: "service:gluetun"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
     env_file:
       - .env
     volumes:
