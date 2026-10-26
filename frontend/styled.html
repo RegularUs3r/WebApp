@@ -14,17 +14,18 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
     <style>
         :root {
-            --bg: #e5e8ec;
-            --card: #f4f5f7;
+            --bg: #fffafa;
+            --card: #ffffff;
             --field: #ffffff;
             --grey-1: #d3d8de;
             --grey-2: #9aa3ad;
-            --grey-3: #5b6570;
             --blue: #2f6fd6;
-            --blue-hover: #2459b0;
             --blue-soft: #dce8fb;
-            --text: #121417;
-            --black: #121417;
+            --text: #000000;
+            --button-bg: #d3d8de;
+            --button-bg-hover: #bfc5cc;
+            --button-text: #000000;
+            --button-border: #000000;
             --radius: 8px;
             color-scheme: light;
         }
@@ -35,12 +36,13 @@
             --field: #2a2f36;
             --grey-1: #363c44;
             --grey-2: #6b7480;
-            --grey-3: #aab2bc;
             --blue: #4a8af0;
-            --blue-hover: #6ea2f5;
             --blue-soft: rgba(74, 138, 240, 0.25);
             --text: #e3e6ea;
-            --black: #000000;
+            --button-bg: #4a5058;
+            --button-bg-hover: #5b626b;
+            --button-text: #e3e6ea;
+            --button-border: #4a8af0;
             color-scheme: dark;
         }
 
@@ -53,7 +55,9 @@
         }
 
         body {
+            position: relative;
             margin: 0;
+            padding-top: 36px;
             min-height: 100vh;
             background: var(--bg);
             color: var(--text);
@@ -63,31 +67,19 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        /* ---------- Header ---------- */
-        .topbar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: var(--black);
-        }
-
-        .topbar img {
-            width: 24px;
-            height: 24px;
-        }
-
         /* ---------- Theme toggle (span, not <button>, so showContent() ignores it) ---------- */
         .theme-toggle {
+            position: absolute;
+            top: 12px;
+            right: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 32px;
             height: 32px;
-            margin-left: auto;
             background: transparent;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text);
+            border: 1px solid var(--grey-1);
             border-radius: var(--radius);
             font-size: 16px;
             line-height: 1;
@@ -97,8 +89,8 @@
 
         .theme-toggle:hover,
         .theme-toggle:focus-visible {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #6ea2f5;
+            background: var(--blue-soft);
+            border-color: var(--blue);
             outline: none;
         }
 
@@ -108,8 +100,15 @@
             margin: 20px auto;
         }
 
+        /* Program buttons are appended here by fetchData(): wrap them instead of squeezing */
         #group-buttons {
+            flex-wrap: wrap;
             gap: 8px;
+        }
+
+        #group-buttons button {
+            white-space: nowrap;
+            overflow-wrap: normal;
         }
 
         #group-inputs,
@@ -156,7 +155,7 @@
 
         #recon_choices label {
             margin-right: 8px;
-            color: var(--grey-3);
+            color: var(--text);
             font-weight: 600;
             cursor: pointer;
         }
@@ -192,9 +191,9 @@
         /* ---------- Buttons ---------- */
         button {
             padding: 9px 18px;
-            background: var(--blue);
-            color: #ffffff;
-            border: 1px solid var(--blue);
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: 1px solid var(--button-border);
             border-radius: var(--radius);
             font-size: 13px;
             font-weight: 600;
@@ -202,36 +201,15 @@
         }
 
         button:hover {
-            background: var(--blue-hover);
-            border-color: var(--blue-hover);
+            background: var(--button-bg-hover);
         }
 
-        /* Hooks / Settings toggles: grey outline */
-        #group-buttons button {
-            background: var(--card);
-            color: var(--grey-3);
-            border-color: var(--grey-2);
-        }
-
-        #group-buttons button:hover {
-            background: var(--blue-soft);
-            color: var(--blue);
-            border-color: var(--blue);
-        }
-
-        /* "+" button: black square */
+        /* "+" button: square */
         #add {
             min-width: 40px;
             padding: 9px 12px;
-            background: var(--black);
-            border-color: var(--black);
             font-size: 16px;
             line-height: 1;
-        }
-
-        #add:hover {
-            background: var(--blue);
-            border-color: var(--blue);
         }
 
         /* ---------- Hooks list (#display_config is built by fetchHooks()) ---------- */
@@ -317,11 +295,8 @@
     </style>
 </head>
 <body>
-    <header class="topbar">
-        <img src="images/favicon.png" alt="">
-        <span id="theme-toggle" class="theme-toggle" role="button" tabindex="0"
-              aria-label="Switch to dark mode" title="Switch to dark mode">☾</span>
-    </header>
+    <span id="theme-toggle" class="theme-toggle" role="button" tabindex="0"
+          aria-label="Switch to dark mode" title="Switch to dark mode">☾</span>
     <script>
         const THEME_KEY = "assetmonitor-theme"
 
