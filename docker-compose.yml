@@ -15,6 +15,7 @@ services:
      - .env
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U psqluser -d webapp"]
       interval: 5s
@@ -63,6 +64,32 @@ services:
       - ./backend/wordlists:/home/ubuntu/WebApp/backend/wordlists:ro
     depends_on:
       gluetun:    { condition: service_healthy }
+      postgresql: { condition: service_healthy }
+      rabbitmq:   { condition: service_healthy }
+    restart: unless-stopped
+  
+  ai-worker:
+    build: .
+    command: ["npm", "run", "start:aimap"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+    env_file:
+      - .env
+    depends_on:
+      postgresql: { condition: service_healthy }
+      rabbitmq:   { condition: service_healthy }
+    restart: unless-stopped
+
+  ai-cname-worker:
+    build: .
+    command: ["npm", "run", "start:aicname"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+    env_file:
+      - .env
+    depends_on:
       postgresql: { condition: service_healthy }
       rabbitmq:   { condition: service_healthy }
     restart: unless-stopped

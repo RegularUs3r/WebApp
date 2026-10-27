@@ -3,8 +3,7 @@ import { tryFetch } from './fetch';
 import { addLinks, addMapLinks, addResponse } from '../models/addStuffDB';
 import { checkLinksAgainstSubdomains, getResponse } from '../models/getStuffDB';
 import { checkFile } from './fileDiffer';
-import { notify } from './notifier';
-import { claudeModule } from './claude';
+import { sendToQueue } from '../queue/producer';
 
 export const linkExtractor = async(subdomain: string, live: boolean, program_name: string): Promise<void> => {
     const excludedFiles = [".png", ".jpg", ".gif", ".webp", ".jpeg", ".svg", ".ttf", ".woff", ".woff2", ".ico", ".eot", ".webp", ".css"]
@@ -70,8 +69,7 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                         const response = await r.json()
                         const sources = response["sources"]
                         if(sources){
-                            const result = await claudeModule(r.url);
-                            await notify(`Map Finder-${r.url}`, [result], program_name) ?? ""
+                            await sendToQueue("ai_jobs", JSON.stringify({ mapURL: r.url, program_name: program_name }))
                         }
                     }catch(error){
                         console.error("Not a .map file")

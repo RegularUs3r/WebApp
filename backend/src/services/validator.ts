@@ -54,6 +54,7 @@ export const prober = async(subs: string[], program_name: string, live: boolean)
             if(data === undefined) return
             const {subdomain, status} = data
             await notify("Subdomain Enumerator", [subdomain + " - " +status], program_name)
+            await sendToQueue("Cname Dangler", JSON.stringify({ target: subdomain, program_name: program_name }))
             if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
                 await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
             }
