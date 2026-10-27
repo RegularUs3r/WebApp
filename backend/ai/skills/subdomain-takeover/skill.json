@@ -1,0 +1,110 @@
+{
+  "schema_version": "sskills/lightweight-specialist/v1",
+  "id": "subdomain_takeover_analysis",
+  "version": "1.0.0",
+  "title": "Subdomain Takeover Analysis Specialist",
+  "description": "A lightweight specialist entrypoint that routes dangling-DNS signals (CNAME, NS, MX, SPF/DKIM includes, expired registrations) to compact per-provider takeover technique cards, safety gates, and structured output, distinguishing genuinely claimable resources from non-claimable and false-positive patterns.",
+  "vulnerability_class": "subdomain_takeover",
+  "signal_classes": [
+    "dangling_cname_signal",
+    "dangling_ns_delegation_signal",
+    "dangling_mx_signal",
+    "dangling_spf_txt_include_signal",
+    "expired_domain_registration_signal",
+    "cloud_storage_bucket_signal",
+    "paas_app_name_signal",
+    "static_site_host_signal",
+    "cdn_edge_signal",
+    "saas_custom_domain_signal",
+    "non_claimable_provider_signal",
+    "wildcard_dns_false_positive_signal",
+    "domain_parking_false_positive_signal",
+    "claim_verification_signal",
+    "takeover_poc_evidence_signal",
+    "subdomain_enum_handoff_signal"
+  ],
+  "aliases": [
+    "subdomain takeover",
+    "dns takeover",
+    "cname takeover",
+    "dangling cname",
+    "dangling dns",
+    "dangling dns record",
+    "orphaned dns record",
+    "abandoned cloud resource",
+    "domain hijack",
+    "zone takeover",
+    "ns takeover",
+    "bucket takeover",
+    "s3 takeover",
+    "azure takeover",
+    "heroku takeover",
+    "github pages takeover",
+    "expired domain",
+    "dangling mx",
+    "can i take over xyz",
+    "check if dangling"
+  ],
+  "safety_posture": {
+    "authorized_testing_only": true,
+    "no_automatic_resource_claiming": true,
+    "no_automatic_credential_or_session_exfiltration": true,
+    "no_automatic_real_user_traffic_interception": true,
+    "evidence_storage": "metadata_hash_shape_only"
+  },
+  "automation_policy": {
+    "can_generate_automatic_requests": true,
+    "allowed_methods": [
+      "GET",
+      "HEAD"
+    ],
+    "automatic_scope": "passive_dns_resolution_cname_chain_tracing_and_name_availability_checks_that_create_no_resource",
+    "payload_policy": "no_actual_resource_claiming_or_content_deployment_without_manual_approval",
+    "body_storage": "metadata_hash_shape_only",
+    "requires_human_approval_for": [
+      "actually registering/claiming a cloud resource (bucket, app name, page host) to prove takeover",
+      "deploying any content, even benign, to a claimed resource",
+      "leaving a claimed resource live longer than needed to capture PoC evidence",
+      "reading Set-Cookie values or any data sent by real visitors to a claimed resource",
+      "intercepting OAuth/SSO redirect flows or callback traffic through a claimed resource",
+      "claiming an NS-delegated zone (full DNS control is a much higher-blast-radius action than a single CNAME)",
+      "sending mail from or receiving mail at a claimed dangling MX target",
+      "expanding subdomain/host enumeration beyond the initially authorized scope"
+    ]
+  },
+  "entrypoints": {
+    "router": "router.md",
+    "safety": "safety.md",
+    "output_schema": "output-schema.json",
+    "technique_index": "techniques/index.md",
+    "provider_fingerprints": "provider-fingerprints.json"
+  },
+  "technique_cards": [
+    { "slug": "overview", "title": "Subdomain Takeover Overview", "path": "techniques/overview.md" },
+    { "slug": "cname-fundamentals-and-triage", "title": "CNAME Fundamentals & Dangling Triage", "path": "techniques/cname-fundamentals-and-triage.md" },
+    { "slug": "cloud-storage-bucket-takeover", "title": "Cloud Storage Bucket Takeover (S3/Blob/GCS)", "path": "techniques/cloud-storage-bucket-takeover.md" },
+    { "slug": "paas-app-name-takeover", "title": "PaaS App Name Takeover (Heroku/Azure App Service/etc.)", "path": "techniques/paas-app-name-takeover.md" },
+    { "slug": "static-site-host-takeover", "title": "Static Site Host Takeover (Pages/Netlify/Vercel/Firebase)", "path": "techniques/static-site-host-takeover.md" },
+    { "slug": "cdn-edge-takeover", "title": "CDN / Edge Takeover (CloudFront/Fastly/Workers/Akamai)", "path": "techniques/cdn-edge-takeover.md" },
+    { "slug": "saas-custom-domain-takeover", "title": "SaaS Custom-Domain Takeover (Zendesk/Shopify/Statuspage/etc.)", "path": "techniques/saas-custom-domain-takeover.md" },
+    { "slug": "non-claimable-provider-patterns", "title": "Non-Claimable Provider Patterns (ELB/ALB/NLB/Traffic Manager)", "path": "techniques/non-claimable-provider-patterns.md" },
+    { "slug": "ns-delegation-takeover", "title": "NS Delegation Takeover (Full Zone Takeover)", "path": "techniques/ns-delegation-takeover.md" },
+    { "slug": "mx-record-takeover", "title": "Dangling MX Takeover (Mail Interception)", "path": "techniques/mx-record-takeover.md" },
+    { "slug": "spf-dkim-dangling-include", "title": "Dangling SPF/DKIM Include (Spoofing Risk)", "path": "techniques/spf-dkim-dangling-include.md" },
+    { "slug": "wildcard-and-parking-false-positives", "title": "Wildcard DNS & Domain-Parking False Positives", "path": "techniques/wildcard-and-parking-false-positives.md" },
+    { "slug": "claim-verification-and-safe-poc", "title": "Claim Verification & Safe PoC (Name-Availability Checks)", "path": "techniques/claim-verification-and-safe-poc.md" },
+    { "slug": "impact-proof-and-reporting", "title": "Impact Proof & Reporting Contract", "path": "techniques/impact-proof-and-reporting.md" }
+  ],
+  "retrieval_guidance": {
+    "default_entrypoints": [
+      "router.md",
+      "safety.md",
+      "output-schema.json"
+    ],
+    "load_technique_cards_after_router": true,
+    "max_technique_cards_per_assessment": 5,
+    "avoid_loading_all_technique_cards": true,
+    "use_sources_for_attribution_not_routing": true
+  },
+  "sources_file": "sources.json"
+}

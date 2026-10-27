@@ -1,0 +1,292 @@
+[
+  {
+    "id": "edoverflow-can-i-take-over-xyz",
+    "title": "can-i-take-over-xyz",
+    "url": "https://github.com/EdOverflow/can-i-take-over-xyz",
+    "publisher": "EdOverflow",
+    "type": "reference",
+    "topics": ["provider_fingerprints", "claimability", "canonical_index"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "detectify-hostile-subdomain-takeover",
+    "title": "Hostile Subdomain Takeover using Heroku/Github/Desk + more",
+    "url": "https://labs.detectify.com/writeups/hostile-subdomain-takeover-using-herokugithubdesk-more/",
+    "publisher": "Detectify Labs (Frans Rosén)",
+    "type": "research",
+    "topics": ["foundational_research", "paas_takeover", "saas_takeover"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "owasp-wstg-repo",
+    "title": "OWASP Web Security Testing Guide (WSTG)",
+    "url": "https://github.com/OWASP/wstg",
+    "publisher": "OWASP",
+    "type": "standard",
+    "topics": ["methodology", "configuration_testing"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "owasp-wstg-site",
+    "title": "OWASP Web Security Testing Guide - latest",
+    "url": "https://owasp.org/www-project-web-security-testing-guide/latest/",
+    "publisher": "OWASP",
+    "type": "standard",
+    "topics": ["methodology", "configuration_testing"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "ms-learn-app-service-custom-domain",
+    "title": "Tutorial: Map a custom domain to Azure App Service",
+    "url": "https://learn.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain",
+    "publisher": "Microsoft",
+    "type": "vendor_reference",
+    "topics": ["paas_takeover", "azure", "custom_domain_verification"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "ms-learn-checknameavailability",
+    "title": "App Service checkNameAvailability REST API",
+    "url": "https://learn.microsoft.com/en-us/rest/api/appservice/resource-provider/check-name-availability",
+    "publisher": "Microsoft",
+    "type": "vendor_reference",
+    "topics": ["claim_verification", "azure", "name_availability"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "ms-learn-azure-dns-delegate",
+    "title": "Delegate a domain to Azure DNS",
+    "url": "https://learn.microsoft.com/en-us/azure/dns/dns-delegate-domain-azure-dns",
+    "publisher": "Microsoft",
+    "type": "vendor_reference",
+    "topics": ["ns_takeover", "azure", "dns_delegation"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "aws-elb-how-it-works",
+    "title": "How Elastic Load Balancing works (DNS naming)",
+    "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/how-elastic-load-balancing-works.html",
+    "publisher": "AWS",
+    "type": "vendor_reference",
+    "topics": ["non_claimable_provider", "aws", "alb"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "aws-s3-virtual-hosting",
+    "title": "Virtual hosting of buckets",
+    "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html",
+    "publisher": "AWS",
+    "type": "vendor_reference",
+    "topics": ["cloud_storage_takeover", "aws", "s3"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "aws-route53-delete-hosted-zone",
+    "title": "DeleteHostedZone API Reference",
+    "url": "https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteHostedZone.html",
+    "publisher": "AWS",
+    "type": "vendor_reference",
+    "topics": ["ns_takeover", "aws", "route53"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "github-pages-custom-domain",
+    "title": "Managing a custom domain for your GitHub Pages site",
+    "url": "https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site",
+    "publisher": "GitHub",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "github_pages"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "gitlab-pages-custom-domain",
+    "title": "GitLab Pages custom domains and SSL/TLS Certificates",
+    "url": "https://docs.gitlab.com/ee/user/project/pages/custom_domains_ssl_tls_certification/",
+    "publisher": "GitLab",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "gitlab_pages"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "netlify-custom-domains",
+    "title": "Custom domains",
+    "url": "https://docs.netlify.com/domains-https/custom-domains/",
+    "publisher": "Netlify",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "netlify"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "vercel-domains",
+    "title": "Domains",
+    "url": "https://vercel.com/docs/projects/domains",
+    "publisher": "Vercel",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "vercel"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "firebase-custom-domain",
+    "title": "Connect a custom domain",
+    "url": "https://firebase.google.com/docs/hosting/custom-domain",
+    "publisher": "Google",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "firebase"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "cloudflare-pages-custom-domains",
+    "title": "Custom domains (Cloudflare Pages)",
+    "url": "https://developers.cloudflare.com/pages/configuration/custom-domains/",
+    "publisher": "Cloudflare",
+    "type": "vendor_reference",
+    "topics": ["static_site_host_takeover", "cdn_edge_takeover", "cloudflare"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "cloudflare-for-saas",
+    "title": "Cloudflare for SaaS (custom hostnames)",
+    "url": "https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/",
+    "publisher": "Cloudflare",
+    "type": "vendor_reference",
+    "topics": ["cdn_edge_takeover", "custom_hostname", "cloudflare"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "shopify-existing-domain",
+    "title": "Connecting an existing domain to Shopify",
+    "url": "https://help.shopify.com/en/manual/domains/add-a-domain/using-existing-domains",
+    "publisher": "Shopify",
+    "type": "vendor_reference",
+    "topics": ["saas_custom_domain_takeover", "shopify"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "rfc1035",
+    "title": "RFC 1035: Domain Names - Implementation and Specification",
+    "url": "https://www.rfc-editor.org/rfc/rfc1035",
+    "publisher": "IETF",
+    "type": "standard",
+    "topics": ["dns_fundamentals", "cname", "ns"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "rfc7208",
+    "title": "RFC 7208: Sender Policy Framework (SPF)",
+    "url": "https://www.rfc-editor.org/rfc/rfc7208",
+    "publisher": "IETF",
+    "type": "standard",
+    "topics": ["spf", "email_spoofing"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "rfc6376",
+    "title": "RFC 6376: DomainKeys Identified Mail (DKIM) Signatures",
+    "url": "https://www.rfc-editor.org/rfc/rfc6376",
+    "publisher": "IETF",
+    "type": "standard",
+    "topics": ["dkim", "email_spoofing"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "cwe-284",
+    "title": "CWE-284: Improper Access Control",
+    "url": "https://cwe.mitre.org/data/definitions/284.html",
+    "publisher": "MITRE",
+    "type": "standard",
+    "topics": ["classification"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "cwe-441",
+    "title": "CWE-441: Unintended Proxy or Intermediary ('Confused Deputy')",
+    "url": "https://cwe.mitre.org/data/definitions/441.html",
+    "publisher": "MITRE",
+    "type": "standard",
+    "topics": ["classification"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "bugcrowd-vrt",
+    "title": "Bugcrowd Vulnerability Rating Taxonomy",
+    "url": "https://github.com/bugcrowd/vulnerability-rating-taxonomy",
+    "publisher": "Bugcrowd",
+    "type": "reference",
+    "topics": ["severity"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "first-cvss4",
+    "title": "FIRST CVSS v4.0 Specification",
+    "url": "https://www.first.org/cvss/specification-document",
+    "publisher": "FIRST",
+    "type": "standard",
+    "topics": ["severity"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "subjack",
+    "title": "subjack",
+    "url": "https://github.com/haccer/subjack",
+    "publisher": "haccer",
+    "type": "tooling",
+    "topics": ["scanner", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "tko-subs",
+    "title": "tko-subs",
+    "url": "https://github.com/anshumanbh/tko-subs",
+    "publisher": "anshumanbh",
+    "type": "tooling",
+    "topics": ["scanner", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "dnsreaper",
+    "title": "dnsReaper",
+    "url": "https://github.com/punk-security/dnsReaper",
+    "publisher": "Punk Security",
+    "type": "tooling",
+    "topics": ["scanner", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "nuclei-templates",
+    "title": "nuclei-templates (takeovers)",
+    "url": "https://github.com/projectdiscovery/nuclei-templates",
+    "publisher": "ProjectDiscovery",
+    "type": "tooling",
+    "topics": ["scanner", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-08-05"
+  }
+]

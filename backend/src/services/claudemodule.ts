@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import { readFileSync } from 'fs';
 
 
 export const claudeMapParser = async(asset: string): Promise<string> => {
@@ -63,6 +64,7 @@ export const claudeMapParser = async(asset: string): Promise<string> => {
 }
 
 export const claudeCnameDangler = async(asset: string): Promise<string> => {
+    const METHODOLOGY = readFileSync('/backend/ai/prompts/cname-methodology.md', 'utf8')
     return new Promise((resolve, reject) => {
         let raw = '';
         let err = '';
@@ -71,31 +73,11 @@ export const claudeCnameDangler = async(asset: string): Promise<string> => {
             '--model','claude-opus-5-5',
             '--dangerously-skip-permissions',
             '--print',
-            '--output-format',
-            'json',
-            `INPUT: ${asset}
-            # Role
-            You determine whether a given domain has a dangling CNAME (a CNAME
-            record pointing to a target that is unregistered / unclaimed / no
-            longer resolves — i.e. potentially vulnerable to subdomain takeover).
-
-            # Task
-            For the provided domain:
-            1. Resolve its CNAME chain.
-            2. Determine whether the final target is dangling (unresolvable,
-            NXDOMAIN, or points to a deprovisioned service).
-            3. Answer with a single: YES or NO
-
-            # Rules
-            - Output ONLY "YES" or "NO" — no explanation.
-            - If you lack the tools/access needed to resolve DNS for this domain,
-            do not guess. Instead output exactly: TOOLS MISSING: <what you need>
-            - A "YES" means evidence of a dangling CNAME was found. If records
-            resolve cleanly, answer "NO".
-
-            # When unsure
-            If DNS resolves but you cannot confirm the target's claim status,
-            answer "NO" (do not report a vulnerability you haven't confirmed).`
+            '--output-format', 'json',
+            '--append-system-prompt', METHODOLOGY,
+            '--add-dir', '/backend/ai/skills/subdomain-takeover',
+            '--max-turns', '25',
+            `INPUT: ${asset}\nReturn a single JSON object per the required schema.`
         ], {
             stdio: ['ignore', 'pipe', 'pipe'],
         });

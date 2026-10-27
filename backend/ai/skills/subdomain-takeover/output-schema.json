@@ -1,0 +1,35 @@
+{
+  "schema_version": "sskills/subdomain-takeover-output/v1",
+  "required_fields": [
+    "status",
+    "record_type",
+    "cname_chain",
+    "provider_classification",
+    "claimability",
+    "false_positive_controls",
+    "required_evidence",
+    "safe_next_step",
+    "manual_gate_required"
+  ],
+  "status_values": [
+    "needs_more_evidence",
+    "dangling_confirmed",
+    "not_dangling",
+    "claimable_verified",
+    "claim_ready_manual_gated",
+    "non_claimable_provider",
+    "false_positive_wildcard_or_parking",
+    "discarded_false_positive",
+    "needs_specialized_review"
+  ],
+  "field_notes": {
+    "record_type": "Name the dangling record type: CNAME, NS, MX, SPF/TXT include, or apex/registration-level.",
+    "cname_chain": "List the full resolution chain observed (host -> CNAME target -> further CNAME/A, or NXDOMAIN at which hop), each hop resolved via a named public resolver.",
+    "provider_classification": "Name the suspected provider/service the dangling target belongs to (S3, Azure App Service, GitHub Pages, ELB/ALB, etc.) and the fingerprint that identified it, or unknown.",
+    "claimability": "One of: claimable (name/resource is attacker-choosable and unclaimed), non_claimable (provider assigns a random/non-choosable suffix), unverified (provider claimability not yet checked), or already_claimed_by_third_party.",
+    "false_positive_controls": "State whether wildcard DNS or domain-wide parking was ruled out, and how (e.g. a made-up sibling hostname tested against a public resolver).",
+    "required_evidence": "What's still needed to move from hypothesis to confirmed: e.g. a name-availability check result, a second public resolver confirmation, a WHOIS/registration-expiry check.",
+    "safe_next_step": "One bounded next step, preferring a no-resource-created verification (name-availability check, second resolver confirmation) over an actual claim unless manual approval already exists.",
+    "manual_gate_required": "true for any step in safety.md's Manual-Gated Lane: actually claiming a resource, deploying content, reading real visitor data, or touching an NS/MX dangling record."
+  }
+}
