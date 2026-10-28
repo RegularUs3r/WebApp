@@ -19,6 +19,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
 COPY frontend ./frontend
+COPY backend/ai ./backend/ai
 COPY --from=tools /go/bin/subfinder /usr/local/bin/subfinder
 COPY --from=tools /go/bin/ffuf /usr/local/bin/ffuf
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*

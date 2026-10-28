@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 import { readFileSync } from 'fs';
-
+import { join } from 'path';
 
 export const claudeMapParser = async(asset: string): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -64,7 +64,9 @@ export const claudeMapParser = async(asset: string): Promise<string> => {
 }
 
 export const claudeCnameDangler = async(asset: string): Promise<string> => {
-    const METHODOLOGY = readFileSync('/backend/ai/prompts/cname-methodology.md', 'utf8')
+    const AI_DIR = process.env.AI_DIR ?? join(process.cwd(), 'backend', 'ai');
+    const CNAME_SKILL_DIR = join(AI_DIR, '.claude', 'skills', 'subdomain-takeover');
+    const CNAME_METHODOLOGY_FILE = join(AI_DIR, 'prompts', 'cname-methodology.md');
     return new Promise((resolve, reject) => {
         let raw = '';
         let err = '';
@@ -74,8 +76,8 @@ export const claudeCnameDangler = async(asset: string): Promise<string> => {
             '--dangerously-skip-permissions',
             '--print',
             '--output-format', 'json',
-            '--append-system-prompt', METHODOLOGY,
-            '--add-dir', '/backend/ai/skills/subdomain-takeover',
+            '--append-system-prompt-file', CNAME_METHODOLOGY_FILE,
+            '--add-dir', CNAME_SKILL_DIR,
             '--max-turns', '25',
             `INPUT: ${asset}\nReturn a single JSON object per the required schema.`
         ], {

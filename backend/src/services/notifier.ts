@@ -16,12 +16,12 @@ const process_runner: Sender = (info, botname) => {
 
 const fuzzer: Sender = (info, botname) => {
     const target = info[0]?.split("SICK")[0]
-    const content = `${info.join(",").replace(/,/g, "\n")}`;
+    const content = `\`\`\`${info}\`\`\``;
     return [{ username: botname+` - ${target}`, content: content }];
 };
 
 const cname_dangler: Sender = (info, botname) => {
-    const content = `${info.join(",").replace(/,/g, "\n")}`;
+    const content = `${info.join(",").replace(/,/g, "\n")}` //.replace(/\n/g, "")}`;
     return [{ username: botname, content: content }];
 };
 
