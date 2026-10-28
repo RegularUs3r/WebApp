@@ -22,7 +22,7 @@ COPY frontend ./frontend
 COPY backend/ai ./backend/ai
 COPY --from=tools /go/bin/subfinder /usr/local/bin/subfinder
 COPY --from=tools /go/bin/ffuf /usr/local/bin/ffuf
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates dnsutils && rm -rf /var/lib/apt/lists/*
 USER node
 RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV PATH="/home/node/.local/bin:$PATH"
