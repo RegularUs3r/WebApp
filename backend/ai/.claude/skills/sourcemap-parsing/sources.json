@@ -1,0 +1,252 @@
+[
+  {
+    "id": "source-map-spec-v3",
+    "title": "Source Map Revision 3 Proposal",
+    "url": "https://sourcemaps.info/spec.html",
+    "publisher": "Mozilla / Google (Fitzgerald, Lenz, Seddon)",
+    "type": "standard",
+    "topics": ["sourcemap_format", "mappings", "sources_content"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "tc39-source-map",
+    "title": "TC39 Source Map specification",
+    "url": "https://tc39.es/ecma426/",
+    "publisher": "TC39",
+    "type": "standard",
+    "topics": ["sourcemap_format", "specification"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "mdn-source-map",
+    "title": "Use a source map - Firefox DevTools",
+    "url": "https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map",
+    "publisher": "MDN",
+    "type": "vendor_reference",
+    "topics": ["sourcemap_format", "sourceMappingURL"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "webpack-devtool",
+    "title": "webpack devtool (source map) configuration",
+    "url": "https://webpack.js.org/configuration/devtool/",
+    "publisher": "webpack",
+    "type": "vendor_reference",
+    "topics": ["generator", "webpack", "sourcemap_naming"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "vite-build-sourcemap",
+    "title": "Vite build options - build.sourcemap",
+    "url": "https://vitejs.dev/config/build-options.html",
+    "publisher": "Vite",
+    "type": "vendor_reference",
+    "topics": ["generator", "vite", "sourcemap_naming"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "vite-env-vars",
+    "title": "Vite - Env Variables and Modes (import.meta.env)",
+    "url": "https://vitejs.dev/guide/env-and-mode.html",
+    "publisher": "Vite",
+    "type": "vendor_reference",
+    "topics": ["base_url_resolution", "env_placeholder", "VITE_"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "nextjs-source-maps",
+    "title": "Next.js - productionBrowserSourceMaps",
+    "url": "https://nextjs.org/docs/app/api-reference/next-config-js/productionBrowserSourceMaps",
+    "publisher": "Vercel / Next.js",
+    "type": "vendor_reference",
+    "topics": ["generator", "nextjs", "sourcemap_exposure"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "nextjs-public-env",
+    "title": "Next.js - Environment Variables (NEXT_PUBLIC_)",
+    "url": "https://nextjs.org/docs/app/building-your-application/configuring/environment-variables",
+    "publisher": "Vercel / Next.js",
+    "type": "vendor_reference",
+    "topics": ["base_url_resolution", "env_placeholder", "NEXT_PUBLIC_"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "cra-env-vars",
+    "title": "Create React App - Adding Custom Environment Variables (REACT_APP_)",
+    "url": "https://create-react-app.dev/docs/adding-custom-environment-variables/",
+    "publisher": "Create React App",
+    "type": "vendor_reference",
+    "topics": ["base_url_resolution", "env_placeholder", "REACT_APP_"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "mdn-fetch",
+    "title": "Using the Fetch API",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch",
+    "publisher": "MDN",
+    "type": "vendor_reference",
+    "topics": ["http_client", "fetch", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "axios-docs",
+    "title": "Axios - Request Config (baseURL, method)",
+    "url": "https://axios-http.com/docs/req_config",
+    "publisher": "Axios",
+    "type": "vendor_reference",
+    "topics": ["http_client", "axios", "base_url_resolution"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "angular-httpclient",
+    "title": "Angular - Communicating with backend services using HttpClient",
+    "url": "https://angular.dev/guide/http",
+    "publisher": "Angular",
+    "type": "vendor_reference",
+    "topics": ["http_client", "angular", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "rtk-query",
+    "title": "RTK Query - fetchBaseQuery and endpoints",
+    "url": "https://redux-toolkit.js.org/rtk-query/api/fetchBaseQuery",
+    "publisher": "Redux Toolkit",
+    "type": "vendor_reference",
+    "topics": ["http_client", "rtk_query", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "tanstack-query",
+    "title": "TanStack Query - Queries & Mutations",
+    "url": "https://tanstack.com/query/latest/docs/framework/react/guides/queries",
+    "publisher": "TanStack",
+    "type": "vendor_reference",
+    "topics": ["http_client", "react_query", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "trpc-httplink",
+    "title": "tRPC - HTTP Batch Link",
+    "url": "https://trpc.io/docs/client/links/httpBatchLink",
+    "publisher": "tRPC",
+    "type": "vendor_reference",
+    "topics": ["http_client", "trpc", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "openapi-generator",
+    "title": "OpenAPI Generator - typescript clients",
+    "url": "https://openapi-generator.tech/docs/generators/typescript-axios/",
+    "publisher": "OpenAPI Generator",
+    "type": "vendor_reference",
+    "topics": ["http_client", "generated_sdk", "base_path"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "graphql-over-http",
+    "title": "GraphQL over HTTP specification",
+    "url": "https://graphql.github.io/graphql-over-http/draft/",
+    "publisher": "GraphQL Foundation",
+    "type": "standard",
+    "topics": ["http_client", "graphql", "method_inference"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "unwebpack-sourcemap",
+    "title": "unwebpack-sourcemap",
+    "url": "https://github.com/rarecoil/unwebpack-sourcemap",
+    "publisher": "rarecoil",
+    "type": "tooling",
+    "topics": ["reconstruction", "tooling", "webpack"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "sourcemapper",
+    "title": "sourcemapper",
+    "url": "https://github.com/denandz/sourcemapper",
+    "publisher": "denandz",
+    "type": "tooling",
+    "topics": ["reconstruction", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "mozilla-source-map-lib",
+    "title": "mozilla/source-map (parser/consumer library)",
+    "url": "https://github.com/mozilla/source-map",
+    "publisher": "Mozilla",
+    "type": "tooling",
+    "topics": ["parsing", "tooling", "mappings"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "linkfinder",
+    "title": "LinkFinder - endpoints in JavaScript",
+    "url": "https://github.com/GerbenJavado/LinkFinder",
+    "publisher": "Gerben Javado",
+    "type": "tooling",
+    "topics": ["endpoint_extraction", "tooling", "regex"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "katana",
+    "title": "katana - crawling & JS parsing",
+    "url": "https://github.com/projectdiscovery/katana",
+    "publisher": "ProjectDiscovery",
+    "type": "tooling",
+    "topics": ["collection", "js_crawl", "tooling"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "owasp-wstg-webpage-content",
+    "title": "OWASP WSTG - Review Webpage Content for Information Leakage",
+    "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/05-Review_Webpage_Content_for_Information_Leakage",
+    "publisher": "OWASP",
+    "type": "standard",
+    "topics": ["methodology", "information_leakage"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "cwe-540",
+    "title": "CWE-540: Inclusion of Sensitive Information in Source Code",
+    "url": "https://cwe.mitre.org/data/definitions/540.html",
+    "publisher": "MITRE",
+    "type": "standard",
+    "topics": ["classification", "sensitive_exposure"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  },
+  {
+    "id": "cwe-200",
+    "title": "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+    "url": "https://cwe.mitre.org/data/definitions/200.html",
+    "publisher": "MITRE",
+    "type": "standard",
+    "topics": ["classification", "information_disclosure"],
+    "primary": true,
+    "last_reviewed": "2026-10-29"
+  }
+]

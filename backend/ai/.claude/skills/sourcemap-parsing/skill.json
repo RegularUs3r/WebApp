@@ -1,0 +1,106 @@
+{
+  "schema_version": "sskills/lightweight-specialist/v1",
+  "id": "sourcemap_endpoint_extraction",
+  "version": "1.0.0",
+  "title": "Source Map Parsing & API Endpoint Extraction Specialist",
+  "description": "A lightweight specialist entrypoint that discovers and parses JavaScript source maps (.js.map), reconstructs the original source tree from sourcesContent, extracts the HTTP/API calls the app makes, resolves base-URL placeholders to the actual host, emits a normalized endpoint inventory in the form METHOD {host/api}/PATH, then validates the in-scope endpoints for information leakage via a bounded unauthenticated GET/HEAD probe and returns a report only when a leak (or a genuine source secret) is found.",
+  "vulnerability_class": "attack_surface_recon",
+  "signal_classes": [
+    "sourcemap_reference_signal",
+    "sourcemap_reachable_signal",
+    "sources_content_present_signal",
+    "reconstructable_source_signal",
+    "http_client_call_signal",
+    "base_url_placeholder_signal",
+    "runtime_config_injection_signal",
+    "http_method_inference_signal",
+    "dynamic_path_segment_signal",
+    "framework_client_convention_signal",
+    "third_party_endpoint_noise_signal",
+    "embedded_secret_signal",
+    "endpoint_inventory_output_signal",
+    "no_sourcemap_found_signal"
+  ],
+  "aliases": [
+    "source map",
+    "sourcemap",
+    "js.map",
+    "js map",
+    "map file",
+    "parse source map",
+    "read source map",
+    "sourceMappingURL",
+    "sourcesContent",
+    "unminify",
+    "deobfuscate bundle",
+    "reconstruct source",
+    "extract endpoints from js",
+    "extract api from js",
+    "endpoints from bundle",
+    "api inventory from javascript",
+    "webpack sourcemap",
+    "vite sourcemap",
+    "unwebpack"
+  ],
+  "safety_posture": {
+    "authorized_testing_only": true,
+    "no_automatic_resource_claiming": true,
+    "no_automatic_credential_or_session_exfiltration": true,
+    "no_automatic_use_of_discovered_secrets": true,
+    "no_automatic_real_user_traffic_interception": true,
+    "evidence_storage": "metadata_hash_shape_only"
+  },
+  "automation_policy": {
+    "can_generate_automatic_requests": true,
+    "allowed_methods": [
+      "GET",
+      "HEAD"
+    ],
+    "automatic_scope": "passive_retrieval_of_publicly_served_js_and_map_files_plus_local_static_parsing_reconstruction_and_endpoint_extraction_PLUS_bounded_probe_lane_one_unauthenticated_GET_or_HEAD_per_in_scope_concrete_endpoint_to_validate_for_information_leakage",
+    "bounded_probe_lane": "single_unauthenticated_GET_or_HEAD_only_when_host_in_scope_AND_path_concrete_no_host_or_id_or_param_placeholder_AND_no_credentials_cookies_or_tokens_sent; one_request_per_endpoint_no_retries_stop_on_first_evidence; send_required_identifying_header_eg_X-HackerOne-Research_on_every_probe",
+    "payload_policy": "no_exploitation_payloads_this_specialist_is_recon_inventory_and_bounded_unauthenticated_leak_validation_only",
+    "output_gating": "leak_gated_full_object_only_when_a_leak_or_genuine_source_secret_is_found_else_minimal_status_and_notes",
+    "body_storage": "metadata_hash_shape_only_redacted",
+    "requires_human_approval_for": [
+      "sending any non-GET/HEAD method (POST/PUT/PATCH/DELETE/OPTIONS) to a discovered endpoint",
+      "authenticating a request, or using/replaying/validating any credential, API key, token, or secret found inside a source map",
+      "substituting a guessed identifier (IDOR/BOLA), fuzzing parameters, or traversing paths to reach data",
+      "probing or retrieving source maps/bundles from hosts not confirmed in the authorized scope",
+      "downloading sourcesContent or a probe response that contains another real user's private data beyond confirming its presence and redacted shape",
+      "handing a discovered endpoint to a vulnerability-specific specialist skill for active exploitation"
+    ]
+  },
+  "entrypoints": {
+    "router": "router.md",
+    "safety": "safety.md",
+    "output_schema": "output-schema.json",
+    "technique_index": "techniques/index.md",
+    "client_signatures": "client-signatures.json",
+    "extractor_script": "scripts/extract-endpoints.mjs"
+  },
+  "technique_cards": [
+    { "slug": "overview", "title": "Source Map Parsing Overview", "path": "techniques/overview.md" },
+    { "slug": "sourcemap-discovery", "title": "Source Map Discovery", "path": "techniques/sourcemap-discovery.md" },
+    { "slug": "sourcemap-structure-and-parsing", "title": "Source Map Structure & Parsing", "path": "techniques/sourcemap-structure-and-parsing.md" },
+    { "slug": "reconstruct-source-tree", "title": "Reconstruct Source Tree from sourcesContent", "path": "techniques/reconstruct-source-tree.md" },
+    { "slug": "endpoint-extraction-patterns", "title": "HTTP/API Call Extraction Patterns", "path": "techniques/endpoint-extraction-patterns.md" },
+    { "slug": "base-url-resolution", "title": "Base-URL / Host Placeholder Resolution", "path": "techniques/base-url-resolution.md" },
+    { "slug": "http-method-inference", "title": "HTTP Method Inference", "path": "techniques/http-method-inference.md" },
+    { "slug": "path-normalization-and-output", "title": "Path Normalization & METHOD {host/api}/PATH Output", "path": "techniques/path-normalization-and-output.md" },
+    { "slug": "framework-client-conventions", "title": "Framework & HTTP-Client Conventions", "path": "techniques/framework-client-conventions.md" },
+    { "slug": "false-positives-and-noise", "title": "Third-Party & False-Positive Noise Control", "path": "techniques/false-positives-and-noise.md" },
+    { "slug": "secrets-and-sensitive-data-handling", "title": "Embedded Secret & Sensitive Data Handling", "path": "techniques/secrets-and-sensitive-data-handling.md" }
+  ],
+  "retrieval_guidance": {
+    "default_entrypoints": [
+      "router.md",
+      "safety.md",
+      "output-schema.json"
+    ],
+    "load_technique_cards_after_router": true,
+    "max_technique_cards_per_assessment": 6,
+    "avoid_loading_all_technique_cards": true,
+    "use_sources_for_attribution_not_routing": true
+  },
+  "sources_file": "sources.json"
+}

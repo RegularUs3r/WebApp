@@ -1,0 +1,104 @@
+{
+  "schema_version": "sskills/sourcemap-client-signatures/v1",
+  "note": "Call-pattern signatures used to extract HTTP/API calls and infer method + base URL from reconstructed source. Patterns are heuristics; verify against the actual source.",
+  "entries": [
+    {
+      "client": "axios-shorthand",
+      "call_patterns": ["axios.get(", "axios.post(", "axios.put(", "axios.delete(", "axios.patch("],
+      "method_source": "the called function name (get/post/...)",
+      "base_url_source": "axios.create({ baseURL }) / axios.defaults.baseURL",
+      "url_arg_position": 1
+    },
+    {
+      "client": "axios-instance",
+      "call_patterns": ["const api = axios.create(", "<instance>.get(", "<instance>.request({ url, method })"],
+      "method_source": "function name, or the method field of the config object",
+      "base_url_source": "the baseURL field passed to axios.create()",
+      "url_arg_position": 1
+    },
+    {
+      "client": "fetch",
+      "call_patterns": ["fetch(", "window.fetch(", "await fetch("],
+      "method_source": "options.method (defaults to GET when absent)",
+      "base_url_source": "a string prefix variable concatenated/interpolated with the path",
+      "url_arg_position": 1
+    },
+    {
+      "client": "angular-httpclient",
+      "call_patterns": ["this.http.get(", "this.http.post(", "this.http.put(", "this.http.delete(", "http.patch("],
+      "method_source": "the called function name",
+      "base_url_source": "an injected environment.apiUrl / API_BASE token concatenated with the path",
+      "url_arg_position": 1
+    },
+    {
+      "client": "angularjs-$http",
+      "call_patterns": ["$http.get(", "$http.post(", "$http({ method, url })"],
+      "method_source": "function name or the method property",
+      "base_url_source": "an app config constant",
+      "url_arg_position": 1
+    },
+    {
+      "client": "xmlhttprequest",
+      "call_patterns": [".open('GET', ", ".open('POST', ", "new XMLHttpRequest("],
+      "method_source": "the first argument to .open()",
+      "base_url_source": "a string prefix variable",
+      "url_arg_position": 2
+    },
+    {
+      "client": "jquery-ajax",
+      "call_patterns": ["$.ajax({", "$.get(", "$.post(", "jQuery.ajax("],
+      "method_source": "the type/method property, or the helper name",
+      "base_url_source": "a string prefix variable",
+      "url_arg_position": 1
+    },
+    {
+      "client": "superagent-got-ky",
+      "call_patterns": ["request.get(", "got.post(", "ky.get(", "ky.post("],
+      "method_source": "the called function name",
+      "base_url_source": "prefixUrl (ky) / instance defaults (got)",
+      "url_arg_position": 1
+    },
+    {
+      "client": "rtk-query",
+      "call_patterns": ["createApi({", "baseQuery: fetchBaseQuery({ baseUrl", "builder.query({ query:", "builder.mutation({ query:"],
+      "method_source": "builder.query => GET; builder.mutation => method field of the returned descriptor (often POST/PUT/DELETE)",
+      "base_url_source": "fetchBaseQuery({ baseUrl })",
+      "url_arg_position": null
+    },
+    {
+      "client": "tanstack-query-wrapper",
+      "call_patterns": ["useQuery(", "useMutation(", "queryFn:", "mutationFn:"],
+      "method_source": "the underlying client inside queryFn/mutationFn (inspect that function, not the hook)",
+      "base_url_source": "the underlying client's base URL",
+      "url_arg_position": null
+    },
+    {
+      "client": "trpc",
+      "call_patterns": ["createTRPCClient(", "httpBatchLink({ url", ".query(", ".mutate("],
+      "method_source": ".query => GET, .mutate => POST; transport batches over the link url",
+      "base_url_source": "httpLink/httpBatchLink({ url })",
+      "url_arg_position": null
+    },
+    {
+      "client": "openapi-generated-sdk",
+      "call_patterns": ["new Configuration({ basePath", "Api(configuration)", "requestContext", "this.configuration.basePath"],
+      "method_source": "the generated method's embedded HTTP verb (look at the request builder body)",
+      "base_url_source": "Configuration.basePath / BASE_PATH constant in the generated runtime",
+      "url_arg_position": null
+    },
+    {
+      "client": "graphql-http",
+      "call_patterns": ["ApolloClient({ uri", "GraphQLClient(", "createHttpLink({ uri", "useQuery(gql`", "useMutation(gql`"],
+      "method_source": "POST (GraphQL over HTTP is POST to a single endpoint; operation names are not REST paths)",
+      "base_url_source": "the uri passed to the client/link",
+      "url_arg_position": null
+    },
+    {
+      "client": "grpc-web",
+      "call_patterns": ["new <Service>Client(", ".grpc.", "grpcWebClientBase"],
+      "method_source": "POST to /<package>.<Service>/<Method> (gRPC-web transport)",
+      "base_url_source": "the host passed to the generated client constructor",
+      "url_arg_position": null
+    }
+  ]
+}

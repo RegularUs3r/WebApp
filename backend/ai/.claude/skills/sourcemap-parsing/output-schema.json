@@ -1,0 +1,44 @@
+{
+  "schema_version": "sskills/sourcemap-parsing-output/v2",
+  "output_gating": "Leak-gated. Emit the full object (all required_fields) only when leaked information was found — i.e. `leaks` is non-empty OR `sensitive_exposures` contains a genuine secret. Otherwise emit the minimal clean object {status, notes} only.",
+  "required_fields": [
+    "status",
+    "sourcemaps",
+    "reconstructed_sources",
+    "base_url_resolution",
+    "endpoints",
+    "unresolved_placeholders",
+    "sensitive_exposures",
+    "leaks",
+    "safe_next_step",
+    "manual_gate_required"
+  ],
+  "minimal_clean_fields": [
+    "status",
+    "notes"
+  ],
+  "status_values": [
+    "leak_found",
+    "no_leak",
+    "needs_more_recon",
+    "sourcemaps_parsed",
+    "endpoints_extracted",
+    "no_sourcemaps_found",
+    "sources_content_absent",
+    "out_of_scope",
+    "insufficient_tools",
+    "needs_specialized_review"
+  ],
+  "endpoint_line_format": "METHOD {host/api}/PATH",
+  "field_notes": {
+    "sourcemaps": "List each candidate .map considered: its URL, whether it was actually reachable, the generator if known (webpack/vite/rollup/esbuild/next/tsc), and whether sourcesContent was present. Confirm existence; store metadata/hash/shape, not full file dumps.",
+    "reconstructed_sources": "Count and high-level shape of reconstructed first-party source files (exclude node_modules/vendor noise), or note that the map lacked sourcesContent so no reconstruction was possible.",
+    "base_url_resolution": "For each base-URL placeholder, give the resolved host/base and the evidence (literal in source, axios baseURL, runtime config.js value, env var inlined at build, or the app's own absolute calls), or mark it unresolved.",
+    "endpoints": "The reconstructed API surface: a deduplicated list, each rendered as `METHOD {host/api}/PATH` with {host/api} replaced by the resolved host where known. Per entry include method-inference basis, a confidence (high/medium/low), and the Bounded-Probe result: `probed` (bool), `probe_status` (HTTP code, or `not_probed:out_of_scope|not_probed:parameterized|not_probed:unresolved_host`), and `leak` (bool). Keep the literal {host/api} only where the base URL is genuinely unresolved.",
+    "unresolved_placeholders": "Base-URL or path placeholders (e.g. process.env.NEXT_PUBLIC_API_URL, import.meta.env.VITE_*) whose concrete value was not found in source or runtime config, with where each is referenced.",
+    "sensitive_exposures": "Any credential-/secret-/PII-shaped content found in sourcesContent, with existence and location confirmed but value never used or exfiltrated; each is a sensitive-exposure finding (redacted last-4 + likely_public|likely_secret classification).",
+    "leaks": "Each endpoint/link that, when probed per the Bounded-Probe Lane, returned information that leaks to an unauthenticated caller. Per entry: the `METHOD host/PATH` line, `http_status`, `leak_type` (pii|secret_in_response|internal_data|auth_bypass|stack_trace|directory_listing|source_disclosure|excessive_data|other), `in_scope` (bool), `evidence` (why it is sensitive), and a short `redacted_sample`. Only include leaks actually observed in a probe response.",
+    "safe_next_step": "One bounded next step, preferring the least invasive action that resolves the biggest open unknown (e.g. fetch one more map, resolve one base URL, or manually verify a confirmed leak) without crossing a manual gate.",
+    "manual_gate_required": "true whenever a proposed next step needs approval per safety.md (any non-GET/HEAD method, authenticating, using a found secret, ID enumeration/fuzzing, going or probing out of scope, etc.)."
+  }
+}
