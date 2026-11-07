@@ -449,14 +449,41 @@
             }
         }
 
-        window.onload = async function run() {
-            const r = await fetch('/api/getcrons')
-            const data = await r.json()
-            console.log(data)
-            for(const button_id of data.status){
-                addRedDot(button_id)
+        function removeStaleDots(activeIds) {
+            const dots = document.querySelectorAll(".badge-dot")
+
+            for (const dot of dots) {
+                const button = dot.parentElement
+                if (button === null) {
+                    continue
+                }
+
+                if (!activeIds.has(button.id)) {
+                    removeRedDot(button.id)
+                }
             }
         }
+
+        async function run() {
+            const r = await fetch('/api/getcrons')
+            if (!r.ok) {
+                return
+            }
+
+            const data = await r.json()
+            const activeIds = new Set(data.status)
+
+            for (const button_id of activeIds) {
+                addRedDot(button_id)
+            }
+
+            removeStaleDots(activeIds)
+        }
+
+        window.addEventListener("load", function () {
+            run()
+            setInterval(run, 3000)
+        })
     </script>
 </body>
 </html>
