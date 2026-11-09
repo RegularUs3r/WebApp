@@ -16,7 +16,7 @@ const process_runner: Sender = (info, botname) => {
 
 const fuzzer: Sender = (info, botname) => {
     const target = info[0]?.split("SICK")[0]
-    const content = info;
+    const content = `\`\`\`${info}\`\`\``;
     return [{ username: botname, content: content }];
 };
 

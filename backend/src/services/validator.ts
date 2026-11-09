@@ -4,7 +4,6 @@ import { sendToQueue } from "../queue/producer"
 import { linkExtractor } from "./extractor"
 import { tryFetch } from "./fetch"
 import { notify } from "./notifier"
-import { httpxModule } from './httpx'
 
 // export const prober = async(subs: string[], program_name: string, live: boolean): Promise<void> => {
 //     for(const sub of subs){
@@ -38,26 +37,33 @@ import { httpxModule } from './httpx'
 
 export const prober = async(subs: string[], program_name: string, live: boolean): Promise<void> => {
     for(const sub of subs){
-        //A I.A me ajudou com essa forma diferente de usar uma coisa se a outra falhar - nullish
-        const response = await tryFetch(`http://${sub}`) ?? await tryFetch(`https://${sub}`)
-        if(response === undefined || response === null) return
-        if(live === false){
-            console.log(`To add ${sub}`)
-            await addSubdomainsWithCode(sub,  response.status, program_name, live)
-            await linkExtractor(sub, live, program_name)
-            if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
-                await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
+        try{
+            //A I.A me ajudou com essa forma diferente de usar uma coisa se a outra falhar - nullish
+            const response = await tryFetch(`http://${sub}`) ?? await tryFetch(`https://${sub}`)
+            if(response === undefined || response === null) continue
+            if(live === false){
+                console.log(`To add ${sub}`)
+                await addSubdomainsWithCode(sub,  response.status, program_name, live)
+                await linkExtractor(sub, live, program_name)
+                if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
+                    await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
+                }
+            }else{
+                const data = await addSubdomainsWithCode(sub,  response.status, program_name, live)
+                await linkExtractor(sub, live, program_name)
+                if(data === undefined) continue
+                const {subdomain, status} = data
+                await notify("Subdomain Enumerator", [subdomain + " - " +status], program_name)
+                await sendToQueue("Cname Dangler", JSON.stringify({ target: subdomain, program_name: program_name }))
+                if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
+                    await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
+                }
             }
-        }else{
-            const data = await addSubdomainsWithCode(sub,  response.status, program_name, live)
-            await linkExtractor(sub, live, program_name)
-            if(data === undefined) return
-            const {subdomain, status} = data
-            await notify("Subdomain Enumerator", [subdomain + " - " +status], program_name)
-            await sendToQueue("Cname Dangler", JSON.stringify({ target: subdomain, program_name: program_name }))
-            if(response.status === 404 || response.status === 403 || response.status === 401 || response.status === 400){
-                await sendToQueue("fuzz_jobs", JSON.stringify({ subdomain: sub, program_name: program_name }))
-            }
+        }catch (error){
+            //A.I suggestion
+            // one bad subdomain must not abort the whole scan
+            console.error(`Probe failed for ${sub}:`, error)
+
         }
 
     }

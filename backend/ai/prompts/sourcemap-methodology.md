@@ -8,7 +8,7 @@
 When the operator gives you a `.js.map` file, a `.js`/`.map` URL, a directory of maps, or a host whose bundles should be mined, **run this skill end-to-end against it without asking for confirmation.** Build the endpoint inventory, then **validate the in-scope endpoints for information leakage** under the bounded-probe rules below; the leak report is the deliverable.
 
 ## The skill on disk (read these, do not guess)
-Base dir: `/home/sick/claude-assumptions/skills/sourcemap-parsing/`
+Base dir: `/app/backend/ai/.claude/skills/sourcemap-parsing/`
 1. Read `router.md`, `safety.md`, and `output-schema.json` first — always.
 2. Then load **at most 6** technique cards from `techniques/` that the router points to for the signal in hand. Do **not** bulk-read every card.
 3. Use `client-signatures.json` as the HTTP-client call-pattern catalog.
