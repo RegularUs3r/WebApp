@@ -67,19 +67,6 @@ services:
       postgresql: { condition: service_healthy }
       rabbitmq:   { condition: service_healthy }
     restart: unless-stopped
-  
-  ai-worker:
-    build: .
-    command: ["npm", "run", "start:aimap"]
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
-      RABBITMQ_CONNECTION: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
-    env_file:
-      - .env
-    depends_on:
-      postgresql: { condition: service_healthy }
-      rabbitmq:   { condition: service_healthy }
-    restart: unless-stopped
 
   ai-cname-worker:
     build: .
