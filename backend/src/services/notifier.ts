@@ -26,41 +26,10 @@ const cname_dangler: Sender = (info, botname) => {
 };
 
 
-const mapfinder: Sender = (info, botname) => {
-    const firstEmbed: string[] = [];
-    const secondEmbed: string[] = [];
-    try {
-        for (const line of String(info).split("\n")) {
-            const currentLen = firstEmbed.reduce((sum, s) => sum + s.length + 1, 0);
-            if (currentLen + line.length + 1 < 4090) {
-                firstEmbed.push(line);
-            } else {
-                secondEmbed.push(line);
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        process.exitCode = 1;
-    }
-    if(secondEmbed.length > 3){
-        // const data1 = { content: botname, embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` }, { description: `${String(secondEmbed).replace(/,/g, "\n")}` }],};
-        const data1 = `${String(firstEmbed).replace(/,/g, "\n")}`
-        const data2 = `${String(secondEmbed).replace(/,/g, "\n")}`
-        return [{ username: botname, embeds: [{ description: data1.replace(/```/g, "") }, {description: data2.replace(/```/g, "")}]}]
-    
-    }else{
-        // const data = { content: botname, embeds: [ { description: `${String(firstEmbed).replace(/,/g, "\n")}` } ],};
-        const data = `${String(firstEmbed).replace(/,/g, "\n")}`
-        return [{ username: botname, embeds: [{ description: data.replace(/```/g, "") }]}]
-    }
-};
-
-
 const strategies: Record<string, Sender> = {
     "Subdomain Enumerator": subdomainEnumerator,
     "Process Runner": process_runner,
     "Fuzzer": fuzzer,
-    "Map Finder": mapfinder,
     "Cname Dangler": cname_dangler
 };
 

@@ -68,9 +68,6 @@ const linkParser = async(links: string[], subdomain: string, live: boolean, prog
                     try{
                         const response = await r.json()
                         const sources = response["sources"]
-                        if(sources){
-                            await sendToQueue("ai_jobs", JSON.stringify({ mapURL: r.url, program_name: program_name }))
-                        }
                     }catch(error){
                         console.error("Not a .map file")
                     }
